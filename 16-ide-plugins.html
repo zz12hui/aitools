@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🖥 IDE 插件集成：VS Code 与 JetBrains — AI 工具入门系列</title>
+<meta name="description" content="🎯 这篇讲什么">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🖥 IDE 插件集成：VS Code 与 JetBrains">
+<meta property="og:description" content="🎯 这篇讲什么">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/16-ide-plugins.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/16-ide-plugins.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title"> IDE 插件集成：VS Code 与 JetBrains</span>
+</nav>
+<div class="content">
+<h1>🖥 IDE 插件集成：VS Code 与 JetBrains</h1>
+
+<blockquote>工具扩展篇 — 把 AI 助手嵌入你的编辑器</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>命令行好用，但<strong>直接在编辑器里和 AI 对话</strong>更爽。这篇教你给 VS Code 和 JetBrains 装上 AI 插件，让 Claude Code / OpenCode 出现在侧边栏。</p>
+
+<hr>
+
+<h2>🔌 Claude Code IDE 集成</h2>
+
+<p>Claude Code 原生支持 IDE 连接（VS Code / JetBrains）。</p>
+
+<h3>方式一：<code>--ide</code> 自动连接</h3>
+
+<pre><code class="language-bash">
+# 启动 Claude Code 并自动连接 IDE
+claude --ide
+
+# 如果装了多个 IDE，会提示选择
+</code></pre>
+
+<h3>方式二：VS Code 扩展</h3>
+
+<p>1. 打开 VS Code</p>
+<p>2. 扩展市场搜索 <strong>&quot;Claude Code&quot;</strong></p>
+<p>3. 安装 Anthropic 官方扩展</p>
+<p>4. 在 VS Code 里 <code>Cmd/Ctrl+Shift+P</code> → <code>Claude Code: Open</code></p>
+
+<h3>功能</h3>
+
+<ul>
+<li>📝 侧边栏对话</li>
+<li>🔍 选中代码直接提问</li>
+<li>📂 文件树感知上下文</li>
+<li>⚡ 一键应用 AI 生成的代码修改</li>
+</ul>
+
+<hr>
+
+<h2>🛠 Continue.dev：开源替代方案</h2>
+
+<p>[Continue](https://continue.dev) 是开源 AI 编程助手，支持 VS Code 和 JetBrains。</p>
+
+<h3>特点</h3>
+
+<div class="table-wrap"><table><tr><th></th><th>Continue</th><th>Claude Code 扩展</th></tr><tr><td><strong>开源</strong></td><td>✅ Apache 2.0</td><td>❌</td></tr><tr><td><strong>模型选择</strong></td><td>任意（OpenRouter/Local）</td><td>Claude/DeepSeek</td></tr><tr><td><strong>价格</strong></td><td>免费</td><td>免费（需 API Key）</td></tr><tr><td><strong>IDE 支持</strong></td><td>VS Code + JetBrains</td><td>VS Code + JetBrains</td></tr></table></div>
+
+<h3>安装（VS Code）</h3>
+
+<pre><code class="language-bash">
+# 方法一：扩展市场
+# 搜索 &quot;Continue&quot; → 安装
+
+# 方法二：命令行
+code --install-extension Continue.continue
+</code></pre>
+
+<h3>配置模型</h3>
+
+<p><code>~/.continue/config.json</code>：</p>
+
+<pre><code class="language-json">
+{
+  &quot;models&quot;: [
+    {
+      &quot;title&quot;: &quot;DeepSeek V4 Pro&quot;,
+      &quot;provider&quot;: &quot;deepseek&quot;,
+      &quot;model&quot;: &quot;deepseek-chat&quot;,
+      &quot;apiKey&quot;: &quot;sk-你的密钥&quot;
+    },
+    {
+      &quot;title&quot;: &quot;Claude Sonnet&quot;,
+      &quot;provider&quot;: &quot;anthropic&quot;,
+      &quot;model&quot;: &quot;claude-sonnet-4-6&quot;,
+      &quot;apiKey&quot;: &quot;sk-ant-你的密钥&quot;
+    }
+  ],
+  &quot;tabAutocompleteModel&quot;: {
+    &quot;title&quot;: &quot;DeepSeek V4 Flash&quot;,
+    &quot;provider&quot;: &quot;deepseek&quot;,
+    &quot;model&quot;: &quot;deepseek-chat&quot;
+  }
+}
+</code></pre>
+
+<hr>
+
+<h2>⚡ JetBrains 集成</h2>
+
+<h3>Claude Code JetBrains 插件</h3>
+
+<p>1. JetBrains IDE → Settings → Plugins</p>
+<p>2. 搜索 <strong>&quot;Claude Code&quot;</strong></p>
+<p>3. 安装 Anthropic 官方插件</p>
+<p>4. 重启 IDE</p>
+<p>5. 侧边栏出现 Claude Code 面板</p>
+
+<h3>Continue JetBrains 插件</h3>
+
+<p>1. Settings → Plugins → 搜索 <strong>&quot;Continue&quot;</strong></p>
+<p>2. 安装</p>
+<p>3. 配置模型（同上 <code>config.json</code>）</p>
+
+<hr>
+
+<h2>🧩 OpenCode IDE 集成</h2>
+
+<p>OpenCode 也支持 IDE 连接：</p>
+
+<pre><code class="language-bash">
+# 启动 OpenCode 并连接 IDE
+opencode --ide
+
+# 或者在 TUI 中按 Ctrl+X E 打开编辑器模式
+</code></pre>
+
+<hr>
+
+<h2>🔗 多工具协同工作流</h2>
+
+<pre><code>
+┌─────────────────────────────────────┐
+│           VS Code / JetBrains        │
+│  ┌─────────┐  ┌──────────────────┐  │
+│  │ Claude   │  │  Continue.dev    │  │
+│  │  Code    │  │  (多模型切换)     │  │
+│  └─────────┘  └──────────────────┘  │
+│                                     │
+│  你在编辑器里写代码，AI 在侧边栏待命   │
+└─────────────────────────────────────┘
+         │
+         │ 复杂任务
+         ▼
+┌─────────────────┐
+│  Hermes Agent    │
+│  (微信/TG 远程)  │
+└─────────────────┘
+</code></pre>
+
+<p><strong>场景：</strong> 编辑器里小改直接用 Continue，大重构通过 Hermes 派给 Claude Code 后台跑。</p>
+
+<hr>
+
+<h2>📊 IDE 工具选型指南</h2>
+
+<div class="table-wrap"><table><tr><th>你的需求</th><th>推荐</th></tr><tr><td>只想在 VS Code 里用 AI</td><td><strong>Continue.dev</strong>（免费开源）</td></tr><tr><td>已有 Claude 订阅</td><td><strong>Claude Code 官方扩展</strong></td></tr><tr><td>用 JetBrains</td><td><strong>Continue</strong> 或 <strong>Claude Code 插件</strong></td></tr><tr><td>想本地模型 + 云端混合</td><td><strong>Continue</strong>（支持 Ollama）</td></tr><tr><td>需要代码自动补全</td><td><strong>Continue</strong>（Tab Autocomplete）</td></tr></table></div>
+
+<hr>
+
+<h2>🎮 Continue 快捷键</h2>
+
+<div class="table-wrap"><table><tr><th>快捷键</th><th>作用</th></tr><tr><td><code>Cmd/Ctrl+L</code></td><td>选中代码，发送到 Chat</td></tr><tr><td><code>Cmd/Ctrl+I</code></td><td>行内编辑</td></tr><tr><td><code>Cmd/Ctrl+Shift+R</code></td><td>快速修复</td></tr><tr><td><code>@</code></td><td>引用文件/文件夹/代码片段</td></tr></table></div>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: Claude Code 扩展和 Continue 能同时装吗？</h3>
+<p>能。它们互不冲突，可以按需切换使用。</p>
+
+<h3>Q2: Continue 收费吗？</h3>
+<p>完全免费开源。API 调用费用走你自己的 Key。</p>
+
+<h3>Q3: JetBrains 哪个插件最好？</h3>
+<p>Continue 功能最全且开源。Claude Code JetBrains 插件也不错。</p>
+
+<h3>Q4: IDE 里的 AI 会不会读到我的整个项目？</h3>
+<p>取决于配置。Continue 可以限制上下文范围。Claude Code 默认读工作区。</p>
+
+<h3>Q5: 代码自动补全怎么开？</h3>
+<p>Continue：<code>tabAutocompleteModel</code> 配置好模型即可。Claude Code 扩展目前不支持自动补全。</p>
+
+<h3>Q6: 需要单独装 Claude Code CLI 才能用 IDE 扩展吗？</h3>
+<p>Claude Code 官方扩展需要 CLI 已安装。Continue 不需要。</p>
+
+<hr>
+
+<h2>⚠ 避坑指南</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>Continue 装完不能对话</td><td>检查 <code>config.json</code> 的 API Key 是否正确</td></tr><tr><td>Claude Code 扩展连不上</td><td>确认 CLI 已装：<code>claude --version</code></td></tr><tr><td>JetBrains 插件冲突</td><td>同类 AI 插件只装一个</td></tr><tr><td>IDE 卡顿</td><td>限制上下文大小，不要加载整个项目</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #IDE #VSCode #JetBrains #Continue #插件</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

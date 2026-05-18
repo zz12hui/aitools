@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Claude Code Skills 实战：斜杠命令、快捷键与自动化 — AI 工具入门系列</title>
+<meta name="description" content="Claude Code Skills 实战指南：斜杠命令速查大全、自定义快捷键配置、Hooks 自动化触发全攻略，帮你把 Claude Code 用出 IDE 般的流畅体验，操作效率翻倍。">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="⚡ Claude Code Skills 实战：斜杠命令、快捷键与自动化">
+<meta property="og:description" content="Claude Code Skills 实战指南：斜杠命令速查大全、自定义快捷键配置、Hooks 自动化触发全攻略，帮你把 Claude Code 用出 IDE 般的流畅体验，操作效率翻倍。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/09-cc-skills-practice.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/09-cc-skills-practice.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">⚡ Claude Code Skills 实战：斜杠命令、快捷键与自动化</span>
+</nav>
+<div class="content">
+<h1>⚡ Claude Code Skills 实战：斜杠命令、快捷键与自动化</h1>
+
+<blockquote>进阶第 2 篇 — 把 Claude Code 用成 IDE 一样顺手</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>CLAUDE.md 管记忆，这篇讲<strong>交互效率</strong>。学会斜杠命令、快捷键和 Hooks，你的操作速度能翻倍。</p>
+
+<hr>
+
+<h2>⌨ 斜杠命令速查</h2>
+
+<p>在 Claude Code 交互会话中输入 <code>/</code> 开头触发。</p>
+
+<h3>会话管理</h3>
+
+<div class="table-wrap"><table><tr><th>命令</th><th>作用</th><th>使用场景</th></tr><tr><td><code>/help</code></td><td>列出所有命令</td><td>忘了命令时</td></tr><tr><td><code>/clear</code></td><td>清空对话历史</td><td>话题切换，重新开始</td></tr><tr><td><code>/compact [focus]</code></td><td>压缩上下文</td><td>对话太长，省 token 时</td></tr><tr><td><code>/context</code></td><td>可视化上下文占用</td><td>担心超出窗口时</td></tr><tr><td><code>/cost</code></td><td>查看 token 用量</td><td>关心花费时</td></tr><tr><td><code>/status</code></td><td>版本和会话信息</td><td>排查问题时</td></tr><tr><td><code>/resume</code></td><td>切换/恢复会话</td><td>回到之前的对话</td></tr></table></div>
+
+<h3>代码开发</h3>
+
+<div class="table-wrap"><table><tr><th>命令</th><th>作用</th></tr><tr><td><code>/review</code></td><td>代码审查当前改动</td></tr><tr><td><code>/security-review</code></td><td>安全审查</td></tr><tr><td><code>/plan</code></td><td>先出计划再动手</td></tr><tr><td><code>/todos</code></td><td>列出追踪中的任务</td></tr></table></div>
+
+<h3>模型与配置</h3>
+
+<div class="table-wrap"><table><tr><th>命令</th><th>作用</th></tr><tr><td><code>/model [name]</code></td><td>切换模型（箭头键选）</td></tr><tr><td><code>/effort</code></td><td>调整思考深度</td></tr><tr><td><code>/init</code></td><td>创建项目 CLAUDE.md</td></tr><tr><td><code>/memory</code></td><td>打开 CLAUDE.md 编辑</td></tr><tr><td><code>/permissions</code></td><td>查看/修改权限</td></tr><tr><td><code>/mcp</code></td><td>管理 MCP 服务器</td></tr><tr><td><code>/release-notes</code></td><td>版本更新日志</td></tr></table></div>
+
+<blockquote>💡 <strong>最常用的三个：</strong> <code>/compact</code> 省 token、<code>/cost</code> 看花费、<code>/model</code> 换模型。</blockquote>
+
+<hr>
+
+<h2>⌨ 键盘快捷键</h2>
+
+<p><strong>记住这 10 个就够了：</strong></p>
+
+<div class="table-wrap"><table><tr><th>快捷键</th><th>作用</th><th>口诀</th></tr><tr><td><code>Ctrl+D</code></td><td>退出</td><td>完事走人</td></tr><tr><td><code>Ctrl+C</code></td><td>取消当前生成</td><td>别说了</td></tr><tr><td><code>Ctrl+R</code></td><td>搜索历史命令</td><td>刚才说的啥</td></tr><tr><td><code>Ctrl+B</code></td><td>后台运行任务</td><td>你先忙</td></tr><tr><td><code>Ctrl+O</code></td><td>看 AI 思考过程</td><td>怎么想的</td></tr><tr><td><code>Shift+Tab</code></td><td>切换权限模式</td><td>信不信任</td></tr><tr><td><code>Alt+P</code></td><td>换模型</td><td>换人干活</td></tr><tr><td><code>Alt+T</code></td><td>开关思考模式</td><td>多想/少想</td></tr><tr><td><code>\</code> + <code>Enter</code></td><td>多行输入换行</td><td>写长点</td></tr><tr><td><code>Ctrl+V</code></td><td>粘贴图片</td><td>看图说话</td></tr></table></div>
+
+<hr>
+
+<h2>🔣 输入前缀技巧</h2>
+
+<div class="table-wrap"><table><tr><th>前缀</th><th>效果</th><th>例子</th></tr><tr><td><code>!</code></td><td>直接执行 bash</td><td><code>!npm test</code> 不等 AI，直接跑</td></tr><tr><td><code>@</code></td><td>引用文件/目录</td><td><code>@./src/api/</code> 自动补全</td></tr><tr><td><code>#</code></td><td>快速加记忆</td><td><code># 这个项目用 pnpm</code></td></tr><tr><td><code>/</code></td><td>斜杠命令</td><td><code>/compact focus on auth</code></td></tr><tr><td><code>ultrathink</code></td><td>最强思考</td><td>复杂问题时在末尾加这个词</td></tr></table></div>
+
+<pre><code>
+用户: 这段代码有没有并发安全问题？ultrathink
+      ↑ Claude 会用最深度的推理来分析
+</code></pre>
+
+<hr>
+
+<h2>🪝 Hooks：让 Claude Code 自动化</h2>
+
+<p>Hooks 是事件触发器。发生某件事时自动执行操作。</p>
+
+<h3>8 种 Hook 类型</h3>
+
+<div class="table-wrap"><table><tr><th>Hook</th><th>触发时机</th><th>典型用途</th></tr><tr><td><code>UserPromptSubmit</code></td><td>你发消息前</td><td>输入验证</td></tr><tr><td><code>PreToolUse</code></td><td>工具执行前</td><td>安全拦截</td></tr><tr><td><code>PostToolUse</code></td><td>工具执行后</td><td>自动格式化</td></tr><tr><td><code>Notification</code></td><td>需要你确认时</td><td>桌面通知</td></tr><tr><td><code>Stop</code></td><td>Claude 回复完</td><td>记录日志</td></tr><tr><td><code>SubagentStop</code></td><td>子代理完成</td><td>汇总结果</td></tr><tr><td><code>PreCompact</code></td><td>上下文压缩前</td><td>备份对话</td></tr><tr><td><code>SessionStart</code></td><td>会话开始时</td><td>加载环境</td></tr></table></div>
+
+<h3>实战配置（<code>.claude/settings.json</code>）</h3>
+
+<pre><code class="language-json">
+{
+  &quot;hooks&quot;: {
+    &quot;PostToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;Write(*.py)&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;ruff check --fix $CLAUDE_FILE_PATHS&quot;
+      }]
+    }],
+    &quot;PreToolUse&quot;: [{
+      &quot;matcher&quot;: &quot;Bash&quot;,
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;if echo \&quot;$CLAUDE_TOOL_INPUT\&quot; | grep -qE &#x27;rm -rf|git push.*--force&#x27;; then echo &#x27;危险操作已拦截！&#x27; &amp;&amp; exit 2; fi&quot;
+      }]
+    }],
+    &quot;SessionStart&quot;: [{
+      &quot;hooks&quot;: [{
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;git status --short&quot;
+      }]
+    }]
+  }
+}
+</code></pre>
+
+<p><strong>效果：</strong></p>
+<ul>
+<li>每次 Claude 写 Python 文件 → 自动 run <code>ruff</code> 格式化</li>
+<li>每次执行 bash 前 → 检查是否危险命令，是就拦截</li>
+<li>每次会话开始 → 自动显示 git 状态</li>
+</ul>
+
+<h3>Hook 可用变量</h3>
+
+<div class="table-wrap"><table><tr><th>变量</th><th>内容</th></tr><tr><td><code>$CLAUDE_PROJECT_DIR</code></td><td>当前项目路径</td></tr><tr><td><code>$CLAUDE_FILE_PATHS</code></td><td>被操作的文件列表</td></tr><tr><td><code>$CLAUDE_TOOL_INPUT</code></td><td>工具参数 JSON</td></tr></table></div>
+
+<hr>
+
+<h2>🏷 自定义斜杠命令</h2>
+
+<p>创建 <code>.claude/commands/</code> 目录，每个 <code>.md</code> 文件就是一个命令：</p>
+
+<pre><code class="language-markdown">
+# .claude/commands/deploy.md
+执行部署流程：
+1. 运行全部测试
+2. 构建 Docker 镜像
+3. 推送到镜像仓库
+4. 更新 $ARGUMENTS 环境（默认 staging）
+</code></pre>
+
+<p>使用：<code>/deploy production</code></p>
+
+<blockquote><code>$ARGUMENTS</code> 是用户输入的内容。<code>/deploy production</code> → <code>production</code> 填入。</blockquote>
+
+<hr>
+
+<h2>📋 Skills：自动触发的操作指南</h2>
+
+<p>Skills 和 Slash Commands 的区别：</p>
+
+<div class="table-wrap"><table><tr><th></th><th>Slash Commands</th><th>Skills</th></tr><tr><td>触发方式</td><td>手动 <code>/命令</code></td><td>自然语言自动匹配</td></tr><tr><td>放在哪</td><td><code>.claude/commands/</code></td><td><code>.claude/skills/</code></td></tr><tr><td>适用场景</td><td>固定流程（部署、发布）</td><td>知识指南（迁移规范、代码风格）</td></tr></table></div>
+
+<pre><code class="language-markdown">
+# .claude/skills/database-migration.md
+当用户要求创建或修改数据库迁移时：
+1. 使用 Alembic 生成迁移文件
+2. 每次创建 up 函数时必须同时写 down 函数
+3. 迁移前先对本地测试数据库执行一遍
+</code></pre>
+
+<p>Claude 看到&quot;帮我做个数据库迁移&quot;会自动加载这份技能指南。</p>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: <code>/compact</code> 什么时候用？</h3>
+<p>对话超过 30 轮、<code>/context</code> 显示 &gt;70% 占用时。压缩后 CLAUDE.md 和 skills 保留，临时对话内容被精炼。</p>
+
+<h3>Q2: Hooks 会不会影响性能？</h3>
+<p>PostToolUse 的 hook 每次写完文件就跑，如果 linter 很慢会拖慢体验。建议只对关键操作加 hook。</p>
+
+<h3>Q3: 自定义命令和 Skills 可以共享给团队吗？</h3>
+<p>可以。放在项目 <code>.claude/commands/</code> 和 <code>.claude/skills/</code> 里，Git 提交后全队可用。</p>
+
+<h3>Q4: <code>!</code> 前缀执行的命令会经过 Hook 检查吗？</h3>
+<p>会。<code>!</code> 只是跳过 AI 直接执行，但 PreToolUse hook 仍然会触发。</p>
+
+<h3>Q5: 怎么知道当前会话占了多少上下文？</h3>
+<p><code>/context</code> 会显示彩色网格，绿色安全，黄色注意，红色危险。</p>
+
+<h3>Q6: <code>ultrathink</code> 和 <code>/effort max</code> 有什么区别？</h3>
+<p><code>/effort max</code> 设全局思考深度。<code>ultrathink</code> 在单次提问中触发最深推理，适用于特别复杂的问题。</p>
+
+<hr>
+
+<h2>⚠ 实操避坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>PreToolUse hook 写错了导致所有命令被拦截</td><td>先不加 hook 测试命令脚本，确认无误再配上</td></tr><tr><td><code>/compact</code> 后忘记了之前的决策</td><td>压缩前用 <code>/todos</code> 记录待办事项</td></tr><tr><td>Skills 文件写太泛</td><td>要写具体步骤和命令，不是&quot;注意安全&quot;这类废话</td></tr><tr><td><code>$ARGUMENTS</code> 不知道怎么用</td><td>在命令 md 里写清楚默认值，如「默认 staging」</td></tr><tr><td>Hook 的 command 路径写相对路径</td><td>用绝对路径或确保 Hook 在项目根目录执行</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #ClaudeCode #进阶 #Commands #Hooks</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

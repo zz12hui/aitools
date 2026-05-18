@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔧 Claude Code 安装入门 — AI 工具入门系列</title>
+<meta name="description" content="📋 前置检查">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🔧 Claude Code 安装入门">
+<meta property="og:description" content="📋 前置检查">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/02-claude-install.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/02-claude-install.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">Claude Code 安装入门</span>
+</nav>
+<div class="content">
+<h1>🔧 Claude Code 安装入门</h1>
+
+<blockquote>第 1 篇 — 从零到能用，一步步实操教程</blockquote>
+
+<hr>
+
+<h2>📋 前置检查</h2>
+
+<p>在装之前，先看看你电脑上有没有这些东西：</p>
+
+<pre><code class="language-bash">
+# 1. 检查 Node.js（版本 ≥ 18）
+node --version
+# 期望输出：v18.x.x 或 v20.x.x 或更高
+
+# 2. 检查 npm
+npm --version
+# 期望输出：9.x.x 或 10.x.x
+
+# 3. 检查 Git
+git --version
+# 期望输出：git version 2.x.x
+</code></pre>
+
+<h3>如果没有 Node.js？</h3>
+
+<p><strong>macOS:</strong></p>
+<pre><code class="language-bash">
+# 方法一：官网下载安装包
+# https://nodejs.org → 下载 LTS 版本 → 双击安装
+
+# 方法二：用 Homebrew（推荐）
+brew install node
+</code></pre>
+
+<p><strong>Ubuntu/Debian Linux:</strong></p>
+<pre><code class="language-bash">
+# 用 NodeSource 官方源（推荐 LTS 版本）
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 验证
+node --version
+</code></pre>
+
+<p><strong>Windows (WSL2):</strong></p>
+<pre><code class="language-bash">
+# 在 WSL2 Ubuntu 中同上操作
+</code></pre>
+
+<hr>
+
+<h2>🚀 安装 Claude Code</h2>
+
+<h3>一条命令搞定：</h3>
+
+<pre><code class="language-bash">
+# 全局安装（推荐）
+npm install -g @anthropic-ai/claude-code
+</code></pre>
+
+<h3>⚠ 如果报权限错误（EACCES）</h3>
+
+<p>Linux 服务器常见问题：</p>
+
+<pre><code class="language-bash">
+# 用 sudo 安装
+sudo npm install -g @anthropic-ai/claude-code
+</code></pre>
+
+<p>或者改用用户级安装：</p>
+
+<pre><code class="language-bash">
+# 配置 npm 全局路径到用户目录
+mkdir -p ~/.npm-global
+npm config set prefix &#x27;~/.npm-global&#x27;
+echo &#x27;export PATH=~/.npm-global/bin:$PATH&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+# 再装一次
+npm install -g @anthropic-ai/claude-code
+</code></pre>
+
+<h3>验证安装：</h3>
+
+<pre><code class="language-bash">
+claude --version
+# 期望：2.x.x 版本号
+
+claude doctor
+# 检查安装健康状态
+</code></pre>
+
+<hr>
+
+<h2>🔐 认证：让 Claude Code 能调用 AI</h2>
+
+<p>Claude Code 本质上是个「壳」，它需要连接到 AI 模型才能工作。有三种方式：</p>
+
+<h3>方式一：Anthropic 官方 API（推荐，但需要境外支付）</h3>
+
+<pre><code class="language-bash">
+# 1. 去 https://console.anthropic.com 注册
+# 2. 获取 API Key
+# 3. 设置环境变量
+export ANTHROPIC_API_KEY=&quot;sk-ant-xxxxxxxxxxxxx&quot;
+</code></pre>
+
+<h3>方式二：DeepSeek API（国内用户首选 ✨）</h3>
+
+<p>DeepSeek 提供了兼容 Anthropic 的接口，<strong>国内可直接注册，价格极低</strong>：</p>
+
+<pre><code class="language-bash">
+# 1. 去 https://platform.deepseek.com 注册
+# 2. 获取 API Key（sk- 开头）
+# 3. 设置两个环境变量
+export ANTHROPIC_BASE_URL=&quot;https://api.deepseek.com/anthropic&quot;
+export ANTHROPIC_API_KEY=&quot;sk-你的DeepSeek密钥&quot;
+</code></pre>
+
+<h3>方式三：OAuth 登录（如果你有 Claude 订阅）</h3>
+
+<pre><code class="language-bash">
+claude auth login
+# 会弹出浏览器，登录你的 Anthropic 账号
+</code></pre>
+
+<hr>
+
+<h2>🔧 推荐：把配置写入文件，永久生效</h2>
+
+<blockquote>⚠ 如果之前已经配过，不要直接覆盖，手动把新内容合并进去。</blockquote>
+
+<pre><code class="language-bash">
+# 创建配置目录（如果还没有）
+mkdir -p ~/.claude
+
+# 写入配置文件
+cat &gt; ~/.claude/settings.json &lt;&lt; &#x27;EOF&#x27;
+{
+  &quot;model&quot;: &quot;deepseek-v4-pro[1m]&quot;,
+  &quot;effort&quot;: &quot;max&quot;
+}
+EOF
+
+# 环境变量写入 shell 配置（选择你的 shell，只执行一次）
+# 如果不确定用的是哪个：echo $SHELL
+#
+# Bash 用户：
+echo &#x27;export ANTHROPIC_BASE_URL=&quot;https://api.deepseek.com/anthropic&quot;&#x27; &gt;&gt; ~/.bashrc
+echo &#x27;export ANTHROPIC_API_KEY=&quot;sk-你的密钥&quot;&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+# Zsh 用户:
+echo &#x27;export ANTHROPIC_BASE_URL=&quot;https://api.deepseek.com/anthropic&quot;&#x27; &gt;&gt; ~/.zshrc
+echo &#x27;export ANTHROPIC_API_KEY=&quot;sk-你的密钥&quot;&#x27; &gt;&gt; ~/.zshrc
+source ~/.zshrc
+</code></pre>
+
+<hr>
+
+<h2>✅ 验证一切正常</h2>
+
+<pre><code class="language-bash">
+# 检查认证状态
+claude auth status --text
+# 应显示：Anthropic base URL: https://api.deepseek.com/anthropic
+
+# 试一次简单对话
+claude -p &quot;你好，请用中文告诉我你是什么模型&quot; --max-turns 1
+# 应回复类似 &quot;我是 DeepSeek V4 Pro...&quot;
+</code></pre>
+
+<hr>
+
+<h2>🎮 两种使用模式</h2>
+
+<h3>模式 1：一句话命令（Print Mode）— 新手友好 ✨</h3>
+
+<pre><code class="language-bash">
+# 格式：claude -p &quot;你的问题&quot;
+claude -p &quot;解释一下这段代码&quot; --max-turns 5
+
+# 加文件：用管道输入
+cat src/app.py | claude -p &quot;审查这个文件的代码质量&quot;
+</code></pre>
+
+<h3>模式 2：交互对话（REPL Mode）</h3>
+
+<pre><code class="language-bash">
+# 直接输入 claude 回车，进入对话模式
+claude
+
+# 常用快捷键：
+# Ctrl+D 退出
+# Shift+Tab 切换权限模式
+# ! 前缀直接执行 bash 命令
+</code></pre>
+
+<hr>
+
+<h2>📁 Claude Code 的文件都放哪了？</h2>
+
+<pre><code>
+~/.claude/                  # 全局配置
+├── settings.json           # 你的设置
+├── CLAUDE.md               # 全局记忆（告诉 Claude 你的偏好）
+├── agents/                 # 自定义子代理
+├── commands/               # 自定义斜杠命令
+└── projects/               # 各项目的自动记忆
+
+.claude/                    # 项目级配置（在你的代码项目里）
+├── settings.json           # 项目专属设置
+├── CLAUDE.md               # 项目说明
+└── settings.local.json     # 个人设置（不提交 git）
+</code></pre>
+
+<hr>
+
+<h2>🚦 下一步</h2>
+
+<ul>
+<li>👉 配置详细说明 → <a href="03-claude-config.html" class="wikilink">2026-05-08 Claude Code 配置与认证</a></li>
+<li>👉 遇到问题 → <a href="07-faq.html" class="wikilink">2026-05-08 常见问题与故障排除</a></li>
+
+<ul>
+<li>👉 对比 Hermes Agent → <a href="06-compare.html" class="wikilink">2026-05-08 Claude Code vs Hermes Agent 对比选型</a></li>
+   </ul>
+</ul>
+
+<hr>
+
+<h2>💡 小白提示</h2>
+
+<div class="table-wrap"><table><tr><th>问题</th><th>答案</th></tr><tr><td>装完后能直接写代码吗？</td><td>✅ 能！它会读你的文件、改代码、运行测试</td></tr><tr><td>会搞坏我的代码吗？</td><td>建议先用 Git <code>git init &amp;&amp; git add . &amp;&amp; git commit -m &quot;备份&quot;</code></td></tr><tr><td>每个月花多少钱？</td><td>DeepSeek API 日常使用约 ¥5-30/月</td></tr><tr><td>需要科学上网吗？</td><td>用 DeepSeek 不需要，用 Anthropic 官方需要</td></tr><tr><td>能离线用吗？</td><td>不能，每次都要联网调用 API</td></tr></table></div>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: <code>npm install -g</code> 报 EACCES 权限错误怎么解决？</h3>
+<p>两种方法：① <code>sudo npm install -g @anthropic-ai/claude-code</code>（最快）；② 配置用户级 npm 路径（参考正文「权限错误」小节）。</p>
+
+<h3>Q2: Node.js 版本太低怎么办？</h3>
+<p>macOS：<code>brew upgrade node</code>。Linux：重新跑一遍 NodeSource 安装脚本。Windows：去 nodejs.org 下载新版本覆盖安装。</p>
+
+<h3>Q3: 装完后 <code>claude</code> 命令提示 command not found？</h3>
+<p>可能是 npm 全局路径没在 PATH 里。检查：<code>npm list -g --depth=0 | grep claude</code>，找到了就加 PATH：<code>echo &#x27;export PATH=&quot;$(npm prefix -g)/bin:$PATH&quot;&#x27; &gt;&gt; ~/.bashrc &amp;&amp; source ~/.bashrc</code>。</p>
+
+<h3>Q4: 需要科学上网吗？</h3>
+<p><strong>用 DeepSeek API 不需要</strong>，国内直连。用 Anthropic 官方 API 需要境外网络。</p>
+
+<h3>Q5: Windows 原生能用吗？</h3>
+<p>官方主要支持 macOS 和 Linux。Windows 用户推荐装 WSL2（Ubuntu 子系统），在里面按 Linux 流程操作。</p>
+
+<h3>Q6: 能不能装在云服务器上？</h3>
+<p>✅ 能，而且很适合。服务器 24 小时在线，配合 Hermes 网关可以随时随地通过微信/TG 调用。</p>
+
+<h3>Q7: 装完第一步做什么？</h3>
+<p>跑 <code>claude -p &quot;你好&quot; --max-turns 1</code> 确认能正常对话，然后看 <a href="03-claude-config.html" class="wikilink">2026-05-08 Claude Code 配置与认证</a> 完成配置。</p>
+
+<h3>Q8: 为什么推荐 DeepSeek 而不是直接用 Claude？</h3>
+<p><strong>便宜 + 国内直连。</strong> DeepSeek V4 Pro 一天正常使用 ¥0.5-2，Claude Sonnet 同样用法得 ¥5-20。对于新手入门和日常编程，DeepSeek 完全够用。</p>
+
+<hr>
+
+<h2>⚠ 安装过程中容易踩的坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td><code>npm install -g</code> 不用 sudo 直接报错</td><td>Linux 服务器上大概率要加 <code>sudo</code>，这是正常的</td></tr><tr><td>装了但没配 API Key 就开始用</td><td>Claude Code 只是个壳，<strong>一定要配 Key</strong> 才能调用 AI</td></tr><tr><td>DeepSeek 模型名写错</td><td><code>deepseek-v4-pro[1m]</code> 必须带 <code>[1m]</code> 后缀，<code>deepseek-v4-flash</code> 不带</td></tr><tr><td>环境变量只在当前终端生效</td><td>必须写入 <code>~/.bashrc</code> 或 <code>~/.zshrc</code>，否则关掉终端就没了</td></tr><tr><td>用 <code>cat &gt; settings.json</code> 覆盖了已有配置</td><td>如果之前配过，用文本编辑器手动改，别直接覆盖</td></tr><tr><td><code>claude</code> 命令和系统自带 claude 冲突</td><td>极少见。用 <code>which claude</code> 确认路径，不是 <code>/usr/bin/claude</code> 就行</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #ClaudeCode #安装</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

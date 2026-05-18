@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 Claude Code Skills 入门：让 AI 记住你的习惯 — AI 工具入门系列</title>
+<meta name="description" content="Claude Code Skills 入门教程：深入讲解三层记忆系统（CLI 参数、项目配置、用户配置）与 CLAUDE.md 编写技巧，让 AI 一次配置后越用越懂你，不再需要重复说明。">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🎓 Claude Code Skills 入门：让 AI 记住你的习惯">
+<meta property="og:description" content="Claude Code Skills 入门教程：深入讲解三层记忆系统（CLI 参数、项目配置、用户配置）与 CLAUDE.md 编写技巧，让 AI 一次配置后越用越懂你，不再需要重复说明。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/08-cc-skills-basics.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/08-cc-skills-basics.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">Claude Code Skills 入门：让 AI 记住你的习惯</span>
+</nav>
+<div class="content">
+<h1>🎓 Claude Code Skills 入门：让 AI 记住你的习惯</h1>
+
+<blockquote>进阶第 1 篇 — 从「用一下」到「越用越顺手」</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>装好 Claude Code 只是开始。真正好用的境界是：<strong>你不用说第二遍，它就知道你想要的。</strong></p>
+
+<p>怎么做？靠 Skill 系统和 CLAUDE.md。</p>
+
+<hr>
+
+<h2>🧠 核心概念：三层记忆</h2>
+
+<p>Claude Code 的记忆分三层，优先级从高到低：</p>
+
+<pre><code>
+┌──────────────────────────────┐
+│  CLI 参数                     │  ← 临时覆盖，这次会话有效
+│  (--model, --effort, ...)    │
+├──────────────────────────────┤
+│  项目配置                     │  ← 跟着 Git 走，团队共享
+│  .claude/settings.json       │
+│  .claude/CLAUDE.md           │
+├──────────────────────────────┤
+│  全局配置                     │  ← 所有项目生效
+│  ~/.claude/settings.json     │
+│  ~/.claude/CLAUDE.md         │
+└──────────────────────────────┘
+</code></pre>
+
+<p><strong>原则：通用的放全局，项目特有的放项目。</strong></p>
+
+<hr>
+
+<h2>📝 CLAUDE.md — 最高效的记忆方式</h2>
+
+<p>CLAUDE.md 是纯文本文件，里面写什么 Claude 就记住什么。<strong>这是最值得花时间写的文件。</strong></p>
+
+<h3>示例：一个好用的全局 CLAUDE.md</h3>
+
+<pre><code class="language-markdown">
+# 关于我
+
+- 全栈开发者，主力 TypeScript + Python
+- 用中文和我交流
+- 代码注释也要中文
+- 我喜欢简洁直接的代码，别过度设计
+
+# 环境
+
+- macOS + VS Code
+- Node 20, pnpm
+- Python 3.12, poetry
+
+# 风格偏好
+
+- TypeScript 不用分号
+- Python 用 4 空格缩进
+- 函数必须加类型标注
+- 别用 any，除非真的有必要
+</code></pre>
+
+<h3>示例：一个项目级 CLAUDE.md</h3>
+
+<pre><code class="language-markdown">
+# 项目：商城后台
+
+## 技术栈
+- React 18 + TypeScript + Tailwind
+- FastAPI + SQLAlchemy + PostgreSQL
+- pytest + Playwright
+
+## 命令
+- `pnpm dev` — 启动前端
+- `pnpm test` — 运行测试
+- `docker-compose up` — 启动数据库
+
+## 规范
+- API 路径统一 /api/v1/ 前缀
+- 错误消息用中文
+- CSS 用 Tailwind，别写自定义 CSS
+</code></pre>
+
+<h3>💡 CLAUDE.md 写作铁律</h3>
+
+<div class="table-wrap"><table><tr><th>✅ 这样写</th><th>❌ 别这样写</th></tr><tr><td>&quot;TypeScript 用 2 空格缩进，不用分号&quot;</td><td>&quot;写整洁的代码&quot;</td></tr><tr><td>&quot;测试文件命名 <code>*.test.ts</code>，用 vitest&quot;</td><td>&quot;记得写测试&quot;</td></tr><tr><td>&quot;API 返回格式 <code>{ data, error }</code>&quot;</td><td>&quot;API 要规范&quot;</td></tr><tr><td>&quot;别动 <code>.env</code> 和 <code>secrets/</code> 目录&quot;</td><td>&quot;注意安全&quot;</td></tr></table></div>
+
+<p><strong>越具体，AI 越听话。模糊的指令 = 随机的结果。</strong></p>
+
+<hr>
+
+<h2>🏗 Rules 目录：拆分大型 CLAUDE.md</h2>
+
+<p>项目大了，一个 CLAUDE.md 可能上千行。用 <strong>Rules 目录</strong> 拆分：</p>
+
+<pre><code>
+项目根目录/
+├── CLAUDE.md                    # 总纲（简短）
+└── .claude/
+    └── rules/
+        ├── tech-stack.md        # 技术栈说明
+        ├── coding-style.md      # 代码规范
+        ├── testing.md           # 测试规范
+        └── deployment.md        # 部署流程
+</code></pre>
+
+<p>每个 <code>.md</code> 文件都会被自动加载。团队可以各自维护不同文件，减少 Git 冲突。</p>
+
+<hr>
+
+<h2>🎮 交互式快捷记忆</h2>
+
+<p>在 Claude Code 对话中，用 <code>#</code> 前缀快速添加记忆：</p>
+
+<pre><code>
+# 这个项目用 pnpm，别用 npm
+# API 返回格式统一 { code, data, message }
+# 颜色变量定义在 src/styles/colors.ts
+</code></pre>
+
+<p>Claude 会自动把 <code>#</code> 开头的内容写入 CLAUDE.md。<strong>想到什么随手记，不用切出去编辑文件。</strong></p>
+
+<hr>
+
+<h2>🔧 Settings 文件：配置级记忆</h2>
+
+<p>CLAUDE.md 管「知识」，Settings 管「行为」。</p>
+
+<h3><code>~/.claude/settings.json</code>（全局）</h3>
+
+<pre><code class="language-json">
+{
+  &quot;model&quot;: &quot;deepseek-v4-pro[1m]&quot;,
+  &quot;effort&quot;: &quot;max&quot;,
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [&quot;Read&quot;, &quot;Bash(npm run lint:*)&quot;, &quot;Bash(npm test:*)&quot;],
+    &quot;deny&quot;: [&quot;Read(.env)&quot;, &quot;Read(*secret*)&quot;, &quot;Bash(rm -rf *)&quot;]
+  }
+}
+</code></pre>
+
+<h3>项目 <code>.claude/settings.json</code>（团队共享）</h3>
+
+<pre><code class="language-json">
+{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [&quot;Bash(pnpm lint:*)&quot;, &quot;Bash(pnpm test:*)&quot;]
+  }
+}
+</code></pre>
+
+<p><strong>设置优先级：</strong> 项目 settings &gt; 全局 settings。项目里配了 <code>allow: [&quot;Bash(pnpm ...)&quot;]</code>，全局的不生效。</p>
+
+<hr>
+
+<h2>📊 三种 CLAUDE.md 的区别</h2>
+
+<div class="table-wrap"><table><tr><th>文件</th><th>位置</th><th>范围</th><th>Git</th><th>用途</th></tr><tr><td><code>CLAUDE.md</code></td><td>项目根目录</td><td>团队所有人</td><td>✅</td><td>项目说明</td></tr><tr><td><code>.claude/CLAUDE.local.md</code></td><td>项目 <code>.claude/</code></td><td>你个人</td><td>❌</td><td>个人偏好</td></tr><tr><td><code>~/.claude/CLAUDE.md</code></td><td>用户主目录</td><td>所有项目</td><td>❌</td><td>全局习惯</td></tr></table></div>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: CLAUDE.md 写多长合适？</h3>
+<p>全局的 <strong>100-300 行</strong>，项目的 <strong>50-200 行</strong>。太长 Claude 记不住重点，太短没啥用。</p>
+
+<h3>Q2: 改了 CLAUDE.md 要重启 Claude Code 吗？</h3>
+<p>不需要！新会话自动加载。当前会话里改了，下一轮对话就生效。</p>
+
+<h3>Q3: <code>#</code> 命令和直接编辑文件哪个好？</h3>
+<p>随手记用 <code>#</code>，系统整理用编辑器。<code>#</code> 适合「这个项目用 pnpm」这种一句话，复杂规范还是写文件。</p>
+
+<h3>Q4: 团队共享 CLAUDE.md 会不会泄露我的 API Key？</h3>
+<p>CLAUDE.md 里<strong>绝对不要写 Key</strong>。Key 放在环境变量或 <code>.env</code> 里。</p>
+
+<h3>Q5: 多个项目怎么不互相污染？</h3>
+<p>每个项目根目录放自己的 CLAUDE.md，它只在该项目生效。全局 ~/.claude/CLAUDE.md 所有项目通用。</p>
+
+<h3>Q6: Rules 目录和 CLAUDE.md 同时存在会冲突吗？</h3>
+<p>不会。两者都会被加载，内容合并。Rules 目录适合拆分管理，CLAUDE.md 适合简短总纲。</p>
+
+<hr>
+
+<h2>⚠ 常见踩坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>CLAUDE.md 写「好好写代码」</td><td>没用。要写「用 2 空格，不用分号，函数加类型」</td></tr><tr><td>把所有规则挤在一个文件</td><td>超过 300 行拆到 rules/ 目录</td></tr><tr><td>全局限死了所有项目</td><td>通用习惯放全局，项目特殊配置放项目里</td></tr><tr><td><code>#</code> 快速记忆和 CLAUDE.md 内容冲突</td><td>Claude 会合并，后者覆盖前者</td></tr><tr><td>以为改了 settings.json 就立刻生效</td><td>需要新开会话，settings 启动时加载</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #ClaudeCode #进阶 #Skills #CLAUDE.md</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

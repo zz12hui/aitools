@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚖ Claude Code vs Hermes Agent — 对比选型 — AI 工具入门系列</title>
+<meta name="description" content="📊 一表看懂">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="⚖ Claude Code vs Hermes Agent — 对比选型">
+<meta property="og:description" content="📊 一表看懂">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/06-compare.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/06-compare.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">⚖ Claude Code vs Hermes Agent — 对比选型</span>
+</nav>
+<div class="content">
+<h1>⚖ Claude Code vs Hermes Agent — 对比选型</h1>
+
+<blockquote>第 5 篇 — 该装哪个？一张表帮你决定</blockquote>
+
+<hr>
+
+<h2>📊 一表看懂</h2>
+
+<div class="table-wrap"><table><tr><th>维度</th><th>Claude Code</th><th>Hermes Agent</th></tr><tr><td><strong>开发者</strong></td><td>Anthropic</td><td>Nous Research</td></tr><tr><td><strong>开源</strong></td><td>❌</td><td>✅ MIT</td></tr><tr><td><strong>主要用途</strong></td><td>写代码</td><td>通用 AI 助手</td></tr><tr><td><strong>交互界面</strong></td><td>终端 + IDE</td><td>终端 + 微信/TG/Discord/...</td></tr><tr><td><strong>模型支持</strong></td><td>Claude + DeepSeek</td><td>任意 20+ 模型</td></tr><tr><td><strong>编程能力</strong></td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td></tr><tr><td><strong>聊天能力</strong></td><td>⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr><tr><td><strong>多平台</strong></td><td>❌</td><td>✅（最强项）</td></tr><tr><td><strong>技能系统</strong></td><td>有（SKILL.md）</td><td>有（更成熟）</td></tr><tr><td><strong>记忆系统</strong></td><td>CLAUDE.md</td><td>持久化 Memory</td></tr><tr><td><strong>定时任务</strong></td><td>❌</td><td>✅</td></tr><tr><td><strong>自进化</strong></td><td>❌</td><td>✅（保存技能）</td></tr><tr><td><strong>上手难度</strong></td><td>⭐ 简单</td><td>⭐⭐⭐ 中等</td></tr><tr><td><strong>安装大小</strong></td><td>Node.js 包</td><td>Python 项目 + 依赖</td></tr></table></div>
+
+<hr>
+
+<h2>🎯 按场景选</h2>
+
+<h3>选 Claude Code，如果你是：</h3>
+
+<ul>
+<li>✅ <strong>主要写代码</strong>，需要深度代码理解和重构</li>
+<li>✅ 喜欢极简，<strong>一个终端搞定一切</strong></li>
+<li>✅ 已有 Claude 订阅或 Anthropic API Key</li>
+<li>✅ 用 VS Code / JetBrains，想 <strong>IDE 内集成</strong></li>
+
+<ul>
+<li>✅ 不想折腾配置，<strong>开箱即用</strong></li>
+    </ul>
+</ul>
+
+<pre><code class="language-bash">
+# Claude Code 的典型一天
+claude -p &quot;Refactor auth module&quot; --allowedTools &quot;Read,Edit,Bash&quot;
+claude -p &quot;Review this PR&quot; &lt; pr.diff
+claude  # 进入交互模式慢慢聊
+</code></pre>
+
+<h3>选 Hermes Agent，如果你是：</h3>
+
+<ul>
+<li>✅ 想在<strong>微信/Telegram</strong> 上和 AI 聊天</li>
+<li>✅ 需要<strong>多个平台统一管理</strong>（家里 TG、公司微信）</li>
+<li>✅ 需要<strong>定时任务</strong>（每天发报告、监控服务器）</li>
+<li>✅ 用<strong>国产模型</strong>（DeepSeek/Kimi/通义千问）</li>
+
+<ul>
+<li>✅ 喜欢<strong>开源可定制</strong></li>
+    </ul>
+
+<ul>
+<li>✅ 想教 AI <strong>学新技能</strong></li>
+    </ul>
+</ul>
+
+<pre><code class="language-bash">
+# Hermes 的典型一天
+# 早上 9 点自动发天气到微信
+# 随时在 Telegram 上让它查资料、改代码
+# 晚上自动总结今日 GitHub 动态
+</code></pre>
+
+<hr>
+
+<h2>🤝 最佳实践：两个都装</h2>
+
+<p>它们<strong>不是竞争关系</strong>，而是互补：</p>
+
+<pre><code>
+┌────────────────────────────────────────┐
+│            Hermes Agent                │
+│  (网关 - 微信/TG/Discord 接收任务)      │
+│                                        │
+│    &quot;帮我在 myproject 里重构 auth&quot;       │
+│         │                              │
+│         ▼                              │
+│  ┌──────────────────┐                  │
+│  │   Claude Code     │                  │
+│  │  (专心写代码)      │                  │
+│  └──────────────────┘                  │
+│         │                              │
+│         ▼                              │
+│    重构完成 → Hermes 发回微信           │
+└────────────────────────────────────────┘
+</code></pre>
+
+<p><strong>设置方法：</strong></p>
+
+<pre><code class="language-bash">
+# 1. 装两个软件
+# Claude Code: npm install -g @anthropic-ai/claude-code
+# Hermes: curl ... | bash
+
+# 2. 在 Hermes 中装 claude-code 技能
+hermes skills install claude-code
+
+# 3. 在微信/TG 上说 &quot;帮我在 xxx 项目里做 yyy&quot;
+# Hermes 自动判断：简单问答自己来，编程任务派给 Claude Code
+</code></pre>
+
+<hr>
+
+<h2>💰 费用对比</h2>
+
+<div class="table-wrap"><table><tr><th>方案</th><th>月费（轻度使用）</th><th>月费（重度使用）</th></tr><tr><td>Claude Code + DeepSeek</td><td>¥5-15</td><td>¥30-80</td></tr><tr><td>Claude Code + Anthropic</td><td>¥30-80</td><td>¥200-500</td></tr><tr><td>Hermes + DeepSeek</td><td>¥5-20</td><td>¥30-100</td></tr><tr><td>两个都装 + DeepSeek</td><td>¥10-30</td><td>¥50-150</td></tr></table></div>
+
+<hr>
+
+<h2>📈 成长路径建议</h2>
+
+<pre><code>
+新手 → Claude Code 入门（装好就能写代码）
+     ↓
+熟悉 → 写 CLAUDE.md 定制（告诉 AI 你的偏好）
+     ↓
+进阶 → 装 Hermes Agent（接入微信）
+     ↓
+高手 → 两个联动 + 定时任务 + 自定义技能
+     ↓
+大神 → 自建 MCP 服务 + 团队共享技能库
+</code></pre>
+
+<hr>
+
+<h2>🧪 快速决策流程图</h2>
+
+<pre><code>
+你主要用来干嘛？
+├── 写代码为主 ──→ 先装 Claude Code
+│                    ↓ 够用了？
+│                    ├── 够了 → 完工 ✅
+│                    └── 还想手机用 → 加装 Hermes
+│
+├── 聊天/管理为主 ──→ 先装 Hermes Agent
+│                      ↓ 编程不够强？
+│                      └── 加装 claude-code 技能
+│
+└── 都想试试 ──→ 从 Claude Code 开始
+                  （安装更简单，5 分钟搞定）
+</code></pre>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: 两个都装会冲突吗？</h3>
+<p>不会。它们是完全独立的软件：Claude Code 用 Node.js/npm，Hermes 用 Python/pip。文件、配置、命令全部分开。</p>
+
+<h3>Q2: 我就想试试，装哪个最快？</h3>
+<p><strong>Claude Code。</strong> 5 分钟搞定（<code>npm install -g</code> + 配 Key），立刻能写代码。Hermes 更强大但门槛稍高。</p>
+
+<h3>Q3: 能用同一个 DeepSeek API Key 服务两个吗？</h3>
+<p>✅ 完全可以。同一个 Key 可以同时用在 Claude Code 和 Hermes 上，费用统一结算。</p>
+
+<h3>Q4: 团队用应该选哪个？</h3>
+<p>要看场景。<strong>个人开发者</strong>选 Claude Code（专注编码）。<strong>需要统一 AI 入口的团队</strong>选 Hermes（多平台 + 多用户 + 定时任务 + 技能共享）。</p>
+
+<h3>Q5: 只能装一个，选谁？</h3>
+<p>写代码为主 → Claude Code。聊天/管理/多平台为主 → Hermes。<strong>拿不准就从 Claude Code 开始</strong>，入门门槛低，以后再装 Hermes 联动。</p>
+
+<h3>Q6: 两个工具的内存/配置会互相覆盖吗？</h3>
+<p>不会。Claude Code 的东西在 <code>~/.claude/</code> 和项目 <code>.claude/</code>，Hermes 的在 <code>~/.hermes/</code>。井水不犯河水。</p>
+
+<h3>Q7: 两个都用 DeepSeek，额度消耗会翻倍吗？</h3>
+<p>看你怎么用。如果 Hermes 自动帮你派任务给 Claude Code，当然两份调用。但如果只用其中一个，另一个不跑就不花钱。</p>
+
+<hr>
+
+<h2>⚠ 双持用户的特殊注意事项</h2>
+
+<div class="table-wrap"><table><tr><th>注意事项</th><th>详情</th></tr><tr><td>别把两个工具的命令搞混</td><td><code>claude</code> vs <code>hermes</code>，写 shell 脚本时小心</td></tr><tr><td>API Key 可以共用但分开管理更好</td><td>建议给 Claude Code 和 Hermes 各建一个 DeepSeek Key，方便分别查看用量</td></tr><tr><td>Claude Code 的 CLAUDE.md 不影响 Hermes</td><td>两个工具的记忆/配置互不感知，需要在两边分别设置</td></tr><tr><td>联动时需要两个都正常运行</td><td>Hermes 调 Claude Code 的前提是 Claude Code 已安装且已认证</td></tr><tr><td>Git 项目里会多出两个 <code>.claude/</code> 目录</td><td><code>.claude/</code> 可以提交到 Git（团队共享），<code>.hermes/</code> 不在项目里</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #对比 #ClaudeCode #HermesAgent #选型</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

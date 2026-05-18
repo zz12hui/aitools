@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔓 OpenCode CLI 安装与入门 — AI 工具入门系列</title>
+<meta name="description" content="🎯 这篇讲什么">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🔓 OpenCode CLI 安装与入门">
+<meta property="og:description" content="🎯 这篇讲什么">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/14-opencode.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/14-opencode.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">OpenCode CLI 安装与入门</span>
+</nav>
+<div class="content">
+<h1>🔓 OpenCode CLI 安装与入门</h1>
+
+<blockquote>工具扩展篇 — 开源、不挑模型的 AI 编程助手</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>OpenCode 是开源、供应商无关的 AI 编程 CLI。最大卖点：<strong>不绑死任何一个模型</strong>，可以用 OpenRouter 统一调用 Claude、GPT、DeepSeek 等 100+ 模型。</p>
+
+<hr>
+
+<h2>📊 三大 CLI 工具对比</h2>
+
+<div class="table-wrap"><table><tr><th></th><th>OpenCode</th><th>Claude Code</th><th>Codex</th></tr><tr><td><strong>开源</strong></td><td>✅ MIT</td><td>❌</td><td>❌</td></tr><tr><td><strong>模型绑定</strong></td><td>❌ 不绑（OpenRouter）</td><td>Claude/DeepSeek</td><td>OpenAI GPT</td></tr><tr><td><strong>安装</strong></td><td>npm / brew</td><td>npm</td><td>npm</td></tr><tr><td><strong>TUI 交互</strong></td><td>✅ 全功能 TUI</td><td>✅ 全功能 TUI</td><td>✅ 基础交互</td></tr><tr><td><strong>单次执行</strong></td><td><code>opencode run</code></td><td><code>claude -p</code></td><td><code>codex exec</code></td></tr><tr><td><strong>Session 管理</strong></td><td>✅ 多会话</td><td>✅ 多会话</td><td>✅</td></tr><tr><td><strong>学习曲线</strong></td><td>⭐⭐ 中等</td><td>⭐ 简单</td><td>⭐ 简单</td></tr></table></div>
+
+<hr>
+
+<h2>📋 前置检查</h2>
+
+<pre><code class="language-bash">
+# Mac/Linux
+node --version    # ≥ 18
+npm --version
+git --version
+</code></pre>
+
+<hr>
+
+<h2>🚀 安装</h2>
+
+<h3>方式一：npm（推荐）</h3>
+
+<pre><code class="language-bash">
+npm install -g opencode-ai@latest
+
+# Linux 服务器权限不够
+sudo npm install -g opencode-ai@latest
+</code></pre>
+
+<h3>方式二：Homebrew（macOS）</h3>
+
+<pre><code class="language-bash">
+brew install anomalyco/tap/opencode
+</code></pre>
+
+<h3>验证</h3>
+
+<pre><code class="language-bash">
+opencode --version
+</code></pre>
+
+<hr>
+
+<h2>🔐 认证</h2>
+
+<h3>方式一：OpenRouter（推荐，模型最多）</h3>
+
+<pre><code class="language-bash">
+# 1. https://openrouter.ai/keys 获取 Key
+export OPENROUTER_API_KEY=&quot;sk-or-v1-你的密钥&quot;
+
+# 2. 验证
+opencode auth list
+</code></pre>
+
+<h3>方式二：直接配提供商</h3>
+
+<pre><code class="language-bash">
+# Anthropic
+export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;
+
+# OpenAI
+export OPENAI_API_KEY=&quot;sk-...&quot;
+
+# 验证
+opencode auth list
+# 应显示已配置的提供商
+</code></pre>
+
+<h3>方式三：OAuth 登录</h3>
+
+<pre><code class="language-bash">
+opencode auth login
+# 浏览器登录 OpenRouter/Anthropic 等
+</code></pre>
+
+<h3>写入配置永久生效</h3>
+
+<pre><code class="language-bash">
+echo &#x27;export OPENROUTER_API_KEY=&quot;sk-or-v1-你的密钥&quot;&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+
+<hr>
+
+<h2>🎮 使用方式</h2>
+
+<h3>模式 1：单次执行（<code>opencode run</code>）— 日常首选</h3>
+
+<pre><code class="language-bash">
+# 基本用法
+opencode run &quot;添加 API 调用的重试逻辑并更新测试&quot;
+
+# 带上下文文件
+opencode run &quot;审查配置安全性&quot; -f config.yaml -f .env.example
+
+# 显示 AI 思考过程
+opencode run &quot;调试 CI 测试失败的原因&quot; --thinking
+
+# 指定模型
+opencode run &quot;重构认证模块&quot; --model openrouter/anthropic/claude-sonnet-4
+
+# JSON 格式输出（便于脚本处理）
+opencode run &quot;列出所有 TODO&quot; --format json
+</code></pre>
+
+<h3>模式 2：交互式 TUI</h3>
+
+<pre><code class="language-bash">
+# 启动全功能终端界面
+opencode
+
+# 继续上次会话
+opencode -c
+
+# 继续指定会话
+opencode -s ses_abc123
+</code></pre>
+
+<p><strong>TUI 快捷键：</strong></p>
+
+<div class="table-wrap"><table><tr><th>键</th><th>作用</th></tr><tr><td><code>Enter</code></td><td>提交消息（可能需要按两次）</td></tr><tr><td><code>Tab</code></td><td>切换 Agent（build ↔ plan）</td></tr><tr><td><code>Ctrl+P</code></td><td>打开命令面板</td></tr><tr><td><code>Ctrl+X M</code></td><td>切换模型</td></tr><tr><td><code>Ctrl+X N</code></td><td>新会话</td></tr><tr><td><code>Ctrl+X L</code></td><td>切换会话</td></tr><tr><td><code>Ctrl+X E</code></td><td>打开编辑器</td></tr><tr><td><code>Ctrl+C</code></td><td>退出</td></tr></table></div>
+
+<blockquote>⚠ <strong>千万别用 <code>/exit</code></strong>，那是 Claude Code 的命令，在 OpenCode 里会打开 Agent 选择器。</blockquote>
+
+<hr>
+
+<h2>🎛 常用命令</h2>
+
+<div class="table-wrap"><table><tr><th>命令</th><th>用途</th></tr><tr><td><code>opencode run &#x27;...&#x27;</code></td><td>单次执行</td></tr><tr><td><code>opencode -c</code></td><td>继续上次会话</td></tr><tr><td><code>opencode -s &lt;id&gt;</code></td><td>继续指定会话</td></tr><tr><td><code>opencode --agent build</code></td><td>用 build agent</td></tr><tr><td><code>opencode --agent plan</code></td><td>用 plan agent</td></tr><tr><td><code>opencode --thinking</code></td><td>显示思考过程</td></tr><tr><td><code>opencode --variant high</code></td><td>深度推理</td></tr><tr><td><code>opencode -f file1 -f file2</code></td><td>附加文件</td></tr><tr><td><code>opencode --format json</code></td><td>JSON 输出</td></tr></table></div>
+
+<hr>
+
+<h2>📦 实战场景</h2>
+
+<h3>PR 审查</h3>
+
+<pre><code class="language-bash">
+# 直接审查 PR
+opencode pr 42
+
+# 或克隆到临时目录
+REVIEW=$(mktemp -d)
+git clone https://github.com/user/repo.git $REVIEW
+cd $REVIEW
+opencode run &quot;审查这个 PR vs main&quot;
+</code></pre>
+
+<h3>Session 管理</h3>
+
+<pre><code class="language-bash">
+# 列出历史会话
+opencode session list
+
+# 查看用量和花费
+opencode stats
+opencode stats --days 7 --models anthropic/claude-sonnet-4
+</code></pre>
+
+<hr>
+
+<h2>🔄 OpenCode + Hermes 联动</h2>
+
+<pre><code class="language-bash">
+# 在 Hermes 中装 opencode 技能
+hermes skills install opencode
+
+# 然后通过微信说&quot;用 opencode 帮我在 xxx 项目里重构 xxx&quot;
+# Hermes 自动调用 OpenCode 完成
+</code></pre>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: OpenCode 和 Claude Code 选哪个？</h3>
+<p>想用多个模型、不想被绑定 → OpenCode。只在 Claude/DeepSeek 生态 → Claude Code 更简单。</p>
+
+<h3>Q2: OpenRouter 是什么？</h3>
+<p>模型&quot;中转站&quot;。一个 Key 调 100+ 模型（Claude、GPT、DeepSeek、Gemini 等）。费用比直接连稍高约 5%。</p>
+
+<h3>Q3: PATH 里有多个 opencode 二进制？</h3>
+<p><code>which -a opencode</code> 查看所有路径。用完整路径 <code>$HOME/.opencode/bin/opencode</code> 固定使用。</p>
+
+<h3>Q4: TUI 里按 Enter 没反应？</h3>
+<p>OpenCode TUI 有时需要按两次 Enter（一次完成输入，一次发送）。</p>
+
+<h3>Q5: 怎么退出 TUI？</h3>
+<p><strong>Ctrl+C，不是 /exit。</strong> <code>/exit</code> 在 OpenCode 中会打开 Agent 选择器。</p>
+
+<h3>Q6: 支持哪些模型？</h3>
+<p>通过 OpenRouter 支持 100+ 模型。直接配 Key 支持 Anthropic、OpenAI、Google 等。</p>
+
+<hr>
+
+<h2>⚠ 避坑指南</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>用 <code>/exit</code> 退出 TUI</td><td>用 Ctrl+C 退出</td></tr><tr><td>Enter 按一次没反应</td><td>需要按两次 Enter</td></tr><tr><td><code>which opencode</code> 找到错误版本</td><td>用完整路径或重装统一</td></tr><tr><td>OpenRouter 比直连贵</td><td>直连 DeepSeek/Anthropic 更省钱</td></tr><tr><td><code>opencode</code> 不带参数会进 TUI</td><td>单次任务用 <code>opencode run</code></td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #OpenCode #开源 #安装 #编程助手</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

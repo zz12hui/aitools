@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛡 Hermes Agent 安装入门 — AI 工具入门系列</title>
+<meta name="description" content="📋 前置检查">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🛡 Hermes Agent 安装入门">
+<meta property="og:description" content="📋 前置检查">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/04-hermes-install.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/04-hermes-install.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title"> Hermes Agent 安装入门</span>
+</nav>
+<div class="content">
+<h1>🛡 Hermes Agent 安装入门</h1>
+
+<blockquote>第 3 篇 — 装一个能跑在微信/Telegram 上的全能 AI 管家</blockquote>
+
+<hr>
+
+<h2>📋 前置检查</h2>
+
+<pre><code class="language-bash">
+# 1. 检查 Python（版本 ≥ 3.10）
+python3 --version
+# 期望：Python 3.10.x 或更高
+
+# 2. 检查 pip
+pip3 --version
+
+# 3. 检查 Git
+git --version
+
+# 4. 检查 curl（用来下载安装脚本）
+curl --version
+</code></pre>
+
+<h3>如果没有 Python 3.10+？</h3>
+
+<p><strong>Ubuntu/Debian:</strong></p>
+<pre><code class="language-bash">
+sudo apt update
+sudo apt install python3 python3-pip python3-venv
+</code></pre>
+
+<p><strong>macOS:</strong></p>
+<pre><code class="language-bash">
+brew install python@3.12
+</code></pre>
+
+<p><strong>Windows (WSL2):</strong></p>
+<pre><code class="language-bash">
+# 同上 Ubuntu 操作
+</code></pre>
+
+<hr>
+
+<h2>🚀 安装 Hermes Agent</h2>
+
+<h3>一条命令安装：</h3>
+
+<pre><code class="language-bash">
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+</code></pre>
+
+<blockquote>这个脚本会自动检测你的系统，装好所有依赖。</blockquote>
+
+<h3>安装过程中会发生什么：</h3>
+
+<p>1. 克隆 Hermes Agent 源代码</p>
+<p>2. 创建 Python 虚拟环境</p>
+<p>3. 安装所有 Python 依赖</p>
+<p>4. 创建 <code>~/.hermes/</code> 配置目录</p>
+<p>5. 把 <code>hermes</code> 命令加到 PATH</p>
+
+<h3>验证安装：</h3>
+
+<pre><code class="language-bash">
+hermes --version
+# 期望：显示版本号
+
+hermes doctor
+# 检查依赖和配置是否完整
+</code></pre>
+
+<hr>
+
+<h2>⚙ 初始化配置</h2>
+
+<h3>1. 运行配置向导</h3>
+
+<pre><code class="language-bash">
+hermes setup
+</code></pre>
+
+<p>向导会引导你配置：</p>
+<ul>
+<li><strong>模型选择</strong> — 用哪个 AI（推荐 DeepSeek）</li>
+<li><strong>终端设置</strong> — 在哪执行命令</li>
+<li><strong>网关设置</strong> — 接入哪些消息平台（微信/Telegram/...）</li>
+</ul>
+
+<h3>2. 手动配置模型</h3>
+
+<pre><code class="language-bash">
+# 交互式选择模型和提供商
+hermes model
+</code></pre>
+
+<p>或直接编辑配置文件：</p>
+
+<pre><code class="language-bash">
+hermes config edit
+</code></pre>
+
+<p>推荐配置（<code>~/.hermes/config.yaml</code>）：</p>
+
+<pre><code class="language-yaml">
+model:
+  default: &quot;deepseek-v4-pro&quot;
+  provider: &quot;deepseek&quot;
+
+agent:
+  max_turns: 90
+
+terminal:
+  backend: &quot;local&quot;
+  timeout: 180
+
+display:
+  show_reasoning: true
+  show_cost: true
+</code></pre>
+
+<h3>3. 设置 API Key</h3>
+
+<pre><code class="language-bash">
+# 编辑环境变量文件
+hermes config env-path
+# 会显示 .env 文件路径
+
+# 或直接创建（注意：这是覆盖写入，如果 .env 已有其他内容请手动追加）
+cat &gt; ~/.hermes/.env &lt;&lt; &#x27;EOF&#x27;
+DEEPSEEK_API_KEY=sk-你的DeepSeek密钥
+EOF
+</code></pre>
+
+<hr>
+
+<h2>🔌 支持的 AI 提供商（20+）</h2>
+
+<p>Hermes 最大优势：<strong>一个软件，任意模型</strong></p>
+
+<div class="table-wrap"><table><tr><th>提供商</th><th>密钥环境变量</th><th>备注</th></tr><tr><td>DeepSeek ✨</td><td><code>DEEPSEEK_API_KEY</code></td><td>国内首选，便宜</td></tr><tr><td>OpenRouter</td><td><code>OPENROUTER_API_KEY</code></td><td>统一多模型中转</td></tr><tr><td>Anthropic</td><td><code>ANTHROPIC_API_KEY</code></td><td>Claude 原版</td></tr><tr><td>OpenAI</td><td><code>OPENAI_API_KEY</code></td><td>GPT 系列</td></tr><tr><td>Google Gemini</td><td><code>GEMINI_API_KEY</code></td><td>有免费额度</td></tr><tr><td>xAI Grok</td><td><code>XAI_API_KEY</code></td><td>Grok 模型</td></tr><tr><td>MiniMax</td><td><code>MINIMAX_API_KEY</code></td><td>国产</td></tr><tr><td>Kimi/Moonshot</td><td><code>KIMI_API_KEY</code></td><td>国产</td></tr><tr><td>阿里 DashScope</td><td><code>DASHSCOPE_API_KEY</code></td><td>通义千问</td></tr></table></div>
+
+<p><strong>切换模型很简单：</strong></p>
+
+<pre><code class="language-bash">
+# 命令行切换
+hermes model
+
+# 或在对话中
+/model deepseek-v4-flash
+</code></pre>
+
+<hr>
+
+<h2>🎮 启动方式</h2>
+
+<h3>方式 1：终端对话</h3>
+
+<pre><code class="language-bash">
+# 交互式对话
+hermes
+
+# 一句话提问
+hermes chat -q &quot;帮我看看当前目录有什么文件&quot;
+
+# 加载特定技能
+hermes -s web-search
+</code></pre>
+
+<h3>方式 2：消息平台（微信/Telegram/Discord...）</h3>
+
+<p>这是 Hermes 的<strong>杀手级功能</strong> — 让 AI 出现在你的聊天软件里。</p>
+
+<pre><code class="language-bash">
+# 配置网关
+hermes gateway setup
+
+# 启动网关
+hermes gateway run
+
+# 安装为后台服务（推荐）
+hermes gateway install
+hermes gateway start
+</code></pre>
+
+<p>支持的平台：</p>
+<ul>
+<li>💬 <strong>微信 (Weixin)</strong> — 直接接入企业微信/个人微信</li>
+<li>📱 <strong>Telegram</strong> — Bot API</li>
+<li>🎮 <strong>Discord</strong> — Bot</li>
+<li>💼 <strong>Slack</strong> — App</li>
+
+<ul>
+<li>📧 <strong>邮件</strong> — IMAP/SMTP</li>
+   </ul>
+
+<ul>
+<li>📶 <strong>Signal</strong> — 端到端加密</li>
+   </ul>
+
+<ul>
+<li>📱 <strong>WhatsApp</strong> — Business API</li>
+   </ul>
+
+<ul>
+<li>🏠 <strong>Home Assistant</strong> — 智能家居</li>
+   </ul>
+
+<ul>
+<li>🐧 <strong>钉钉 / 飞书 / 企业微信</strong></li>
+   </ul>
+</ul>
+
+<hr>
+
+<h2>📂 Hermes 的文件结构</h2>
+
+<pre><code>
+~/.hermes/                    # Hermes 主目录
+├── config.yaml               # 主配置文件
+├── .env                      # API 密钥等敏感信息
+├── skills/                   # 安装的技能
+├── sessions/                 # 对话记录
+├── logs/                     # 运行日志
+│   └── gateway.log           # 网关日志
+├── hermes-agent/             # 源代码
+├── auth.json                 # 认证信息
+└── profiles/                 # 多套配置（可选）
+    └── default/
+</code></pre>
+
+<hr>
+
+<h2>🧩 技能系统（Skills）</h2>
+
+<p>Hermes 的独特能力：<strong>用「技能」教它新东西</strong></p>
+
+<pre><code class="language-bash">
+# 查看已安装技能
+hermes skills list
+
+# 搜索技能市场
+hermes skills search &quot;web search&quot;
+
+# 安装技能
+hermes skills install web-search
+
+# 浏览所有可用技能
+hermes skills browse
+</code></pre>
+
+<p>常用技能推荐：</p>
+
+<div class="table-wrap"><table><tr><th>技能名</th><th>用途</th></tr><tr><td><code>web-search</code></td><td>免费网络搜索</td></tr><tr><td><code>self-improvement</code></td><td>自动学习、自我进化</td></tr><tr><td><code>obsidian</code></td><td>管理 Obsidian 笔记</td></tr><tr><td><code>github-pr-workflow</code></td><td>GitHub PR 管理</td></tr><tr><td><code>claude-code</code></td><td>调用 Claude Code</td></tr><tr><td><code>duckduckgo-search</code></td><td>DuckDuckGo 搜索</td></tr><tr><td><code>scrapling</code></td><td>网页抓取</td></tr><tr><td><code>sherlock</code></td><td>OSINT 用户名搜索</td></tr></table></div>
+
+<hr>
+
+<h2>✅ 验证一切正常</h2>
+
+<pre><code class="language-bash">
+# 1. 健康检查
+hermes doctor
+
+# 2. 试一次对话
+hermes chat -q &quot;请用中文介绍你自己，包括你的模型和框架名称&quot;
+
+# 3. 测试网关（如果配了）
+hermes gateway status
+</code></pre>
+
+<hr>
+
+<h2>🎯 实战：配置微信接入</h2>
+
+<pre><code class="language-bash">
+# 正确顺序：先配网关，再装服务，最后启动
+
+# 1. 配置微信
+hermes gateway setup
+# → 选择 Weixin → 按提示填入企业微信信息
+
+# 2. 安装网关为后台服务
+hermes gateway install
+
+# 3. 启动
+
+# 4. 检查状态
+hermes gateway status
+
+# 5. 看日志排查问题
+tail -f ~/.hermes/logs/gateway.log
+</code></pre>
+
+<hr>
+
+<h2>🚦 下一步</h2>
+
+<ul>
+<li>👉 深入配置 → <a href="05-hermes-config.html" class="wikilink">2026-05-08 Hermes Agent 配置与平台接入</a></li>
+<li>👉 对比 Claude Code → <a href="06-compare.html" class="wikilink">2026-05-08 Claude Code vs Hermes Agent 对比选型</a></li>
+
+<ul>
+<li>👉 遇到问题 → <a href="07-faq.html" class="wikilink">2026-05-08 常见问题与故障排除</a></li>
+   </ul>
+</ul>
+
+<hr>
+
+<h2>💡 小白提示</h2>
+
+<div class="table-wrap"><table><tr><th>问题</th><th>答案</th></tr><tr><td>Hermes 和 Claude Code 能一起用吗？</td><td>✅ 能！Hermes 可以调用 Claude Code</td></tr><tr><td>微信接入需要企业微信吗？</td><td>取决于具体方式，有管理后台配置</td></tr><tr><td>安全吗？</td><td>开源可审计，API Key 存本地 <code>.env</code></td></tr><tr><td>手机能用吗？</td><td>不能直接装手机上，但通过微信就能用</td></tr><tr><td>多个平台能同时用吗？</td><td>✅ 网关天然支持多平台</td></tr></table></div>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: Python 版本不够 3.10 怎么办？</h3>
+<p>Ubuntu 22.04+ 自带 Python 3.10+。如果是旧系统：<code>sudo apt install python3.10</code> 或 <code>brew install python@3.12</code>。不要卸载系统自带 Python，会搞崩系统。</p>
+
+<h3>Q2: 安装脚本 <code>curl | bash</code> 下载失败？</h3>
+<p>GitHub 在国内偶尔连不上。三种方案：① 开代理后重试；② 手动 <code>git clone</code> 再 <code>pip install -e .</code>（见 <a href="07-faq.html" class="wikilink">2026-05-08 常见问题与故障排除</a>）；③ 换个网络环境试。</p>
+
+<h3>Q3: 装完后 <code>hermes</code> 命令提示 command not found？</h3>
+<p>安装脚本会自动加 PATH，但有时不生效。手动加：<code>echo &#x27;export PATH=&quot;$HOME/.hermes/hermes-agent/bin:$PATH&quot;&#x27; &gt;&gt; ~/.bashrc &amp;&amp; source ~/.bashrc</code>。</p>
+
+<h3>Q4: 安装占多大空间？</h3>
+<p>Hermes 本体 + Python 依赖约 <strong>500MB-1GB</strong>，不算大。</p>
+
+<h3>Q5: 为什么推荐 DeepSeek 而不是别的模型？</h3>
+<p><strong>国内首选：</strong> 直接注册、支付宝付款、便宜、中文好。Hermes 支持 20+ 模型，后续想换随时 <code>hermes model</code> 切换。</p>
+
+<h3>Q6: 装完第一步做什么？</h3>
+<p>① <code>hermes doctor</code> 检查健康；② <code>hermes chat -q &quot;你好&quot;</code> 试试对话；③ <code>hermes gateway setup</code> 配置消息平台。</p>
+
+<h3>Q7: 能和 Claude Code 共存吗？</h3>
+<p>✅ 完全兼容。两个装在同一台机器上互不影响，还能让 Hermes 通过技能调用 Claude Code。</p>
+
+<h3>Q8: 安装脚本安全吗？</h3>
+<p>脚本来自 Nous Research 官方 GitHub，开源可审计。它会：克隆代码 → 创建虚拟环境 → 安装依赖 → 创建配置目录。不会碰你系统文件。</p>
+
+<h3>Q9: 能否不装系统服务、只在终端用？</h3>
+<p>能。跳过 <code>hermes gateway install</code>，直接用 <code>hermes</code> 进入终端对话模式。网关服务只是多平台接入才需要。</p>
+
+<h3>Q10: 怎么更新 Hermes？</h3>
+<p><code>hermes update</code> 一条命令搞定。它会自动拉最新代码、更新依赖。</p>
+
+<hr>
+
+<h2>⚠ 安装过程中容易翻车的地方</h2>
+
+<div class="table-wrap"><table><tr><th>翻车现场</th><th>正确姿势</th></tr><tr><td><code>pip install</code> 报 PEP 668 错误（externally-managed-environment）</td><td>用 <code>--break-system-packages</code> 或创建虚拟环境。Ubuntu 24.04 常见问题</td></tr><tr><td>以为 API Key 会自动配好</td><td>安装脚本<strong>不会</strong>帮你配 Key。必须手动编辑 <code>~/.hermes/.env</code></td></tr><tr><td><code>hermes setup</code> 和 <code>hermes gateway setup</code> 搞混</td><td>前者配模型/终端，后者配消息平台。两个都要跑</td></tr><tr><td>直接跑 <code>hermes gateway run</code> 前台启动</td><td>调试用可以，正式用要 <code>hermes gateway install</code> 装成后台服务</td></tr><tr><td>GitHub 拉代码卡住不动</td><td><code>git clone</code> 在国内可能很慢。设置代理或改用 gitee 镜像</td></tr><tr><td>装完不验证直接搞大项目</td><td>先跑 <code>hermes doctor</code> + 试一次对话，确认正常再深入</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #HermesAgent #安装 #开源</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

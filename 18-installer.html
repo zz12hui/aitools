@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 一键安装脚本 — AI 工具入门系列</title>
+<meta name="description" content="AI工具一键安装脚本：自动检测系统、一键安装Claude Code、Codex CLI、OpenCode CLI。支持macOS/Linux/WSL2，拒绝不兼容系统，可视化进度，--dry-run模拟模式。">
+<meta name="keywords" content="AI安装脚本,Claude Code安装,Codex安装,OpenCode安装,一键安装,AI编程工具,系统检测,安装教程">
+<meta property="og:title" content="🚀 一键安装脚本 — AI 工具入门系列">
+<meta property="og:description" content="自动检测系统，一键安装 Claude Code、Codex CLI、OpenCode CLI。再也不用手动敲命令了！">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/18-installer.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/18-installer.html">
+<link rel="stylesheet" href="style.css?v=12">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI 工具一键安装脚本",
+  "description": "自动检测系统，一键安装 Claude Code、Codex CLI、OpenCode CLI。支持 macOS/Linux/WSL2。",
+  "url": "https://4si.cc/18-installer.html"
+}
+</script>
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">🚀 一键安装脚本</span>
+</nav>
+<div class="content">
+
+<h1>🚀 AI 工具一键安装脚本</h1>
+
+<blockquote>自动检测系统 · 一键安装 · 可视化进度 · 拒绝不兼容环境</blockquote>
+
+<hr>
+
+<h2>📋 这是什么？</h2>
+
+<p>一个 <strong>智能检测 + 一键安装</strong> 的 Bash 脚本，帮你自动装上 Claude Code、Codex CLI 和 OpenCode CLI。</p>
+
+<p>它会在安装前自动检查你的系统是否兼容，<strong>不支持的平台直接拒绝</strong>，避免装到一半才发现不行。</p>
+
+<div class="step-box">
+  <h3>✨ 核心能力</h3>
+  <ul>
+    <li>🖥 <strong>自动检测系统</strong>：macOS、Ubuntu、Debian、Fedora、Arch、WSL2 全支持</li>
+    <li>🚫 <strong>拒绝不兼容</strong>：Windows 原生、不明 Linux 发行版、非 x86_64/ARM64 架构直接提示</li>
+    <li>📦 <strong>自动装依赖</strong>：Node.js 18+、Python3、Git 缺啥补啥</li>
+    <li>📊 <strong>可视化进度</strong>：旋转动画 + 进度条 + 彩色输出</li>
+    <li>🔬 <strong>安装后验证</strong>：自动跑版本检查，确认装成功</li>
+    <li>🧪 <strong>模拟模式</strong>：<code>--dry-run</code> 看会发生什么，不修改系统</li>
+</div>
+
+<hr>
+
+<h2>⚡ 快速开始</h2>
+
+<p>复制下面这一行命令，贴到你的<strong>终端</strong>里，回车——脚本会自动检测系统、引导你选择安装。</p>
+
+<div class="curl-box">
+  <code id="install-cmd">curl -fsSL https://4si.cc/tools/ai-tools-installer.sh | bash</code>
+  <button class="copy-btn" onclick="copyCmd()" id="copy-btn-1">📋 复制</button>
+</div>
+
+
+
+<h3>🧪 先模拟看看（推荐第一次用）</h3>
+
+<p>不确定脚本会做什么？加上 <code>--dry-run</code> 模拟运行：</p>
+
+<div class="curl-box">
+  <code id="dryrun-cmd">curl -fsSL https://4si.cc/tools/ai-tools-installer.sh | bash -s -- --dry-run</code>
+  <button class="copy-btn" onclick="copyDryCmd()" id="copy-btn-2">📋 复制</button>
+</div>
+
+
+
+<hr>
+
+<h2>🖥 系统兼容矩阵</h2>
+
+<p>脚本在安装前会<strong>精确检测你的系统</strong>，不合适的直接拒绝：</p>
+
+<div class="table-wrap"><table class="sys-table">
+<tr><th>系统/环境</th><th>检测方式</th><th>状态</th><th>说明</th></tr>
+<tr><td>macOS 13+</td><td><code>sw_vers</code> + Homebrew 检测</td><td class="ok">✅ 完全支持</td><td>M1/M2/M3 原生支持</td></tr>
+<tr><td>macOS &lt; 12</td><td>版本号检查</td><td class="warn">⚠ 警告后继续</td><td>部分工具可能受限</td></tr>
+<tr><td>WSL2 (Ubuntu)</td><td><code>/proc/version</code> + <code>os-release</code></td><td class="ok">✅ 完全支持</td><td>Windows 用户首选方案</td></tr>
+<tr><td>WSL1</td><td>内核版本检测</td><td class="warn">⚠ 警告后继续</td><td>建议升级到 WSL2</td></tr>
+<tr><td>Ubuntu 20.04+</td><td><code>/etc/os-release</code></td><td class="ok">✅ 完全支持</td><td>最推荐的 Linux 发行版</td></tr>
+<tr><td>Ubuntu &lt; 20.04</td><td>版本号检查</td><td class="warn">⚠ 警告后继续</td><td>建议升级</td></tr>
+<tr><td>Debian 11+</td><td>ID 匹配</td><td class="ok">✅ 完全支持</td><td></td></tr>
+<tr><td>Fedora / RHEL / CentOS / Rocky / Alma</td><td>ID 匹配</td><td class="warn">⚠ 部分支持</td><td>通过 dnf 安装依赖</td></tr>
+<tr><td>Arch / Manjaro / EndeavourOS</td><td>ID 匹配</td><td class="warn">⚠ 部分支持</td><td>通过 pacman 安装依赖</td></tr>
+<tr><td>Windows 原生（cmd/PowerShell/Git Bash）</td><td><code>uname -s</code> 检测 MINGW/MSYS/CYGWIN</td><td class="no">❌ 直接拒绝</td><td>给出 WSL2 安装教程</td></tr>
+<tr><td>其他 Linux（openSUSE, Alpine...）</td><td>未匹配 ID</td><td class="no">❌ 直接拒绝</td><td>给出手动安装链接</td></tr>
+<tr><td>非 x86_64/ARM64</td><td><code>uname -m</code></td><td class="no">❌ 直接拒绝</td><td>架构不支持</td></tr>
+</table></div>
+
+<hr>
+
+<h2>📸 运行效果预览</h2>
+
+<pre style="background:#1e1e2e;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;">
+<span style="color:#89b4fa">╔══════════════════════════════════════════════╗</span>
+<span style="color:#89b4fa">║        🤖 AI 工具一键安装脚本 v2.0           ║</span>
+<span style="color:#89b4fa">║   Claude Code · Codex CLI · OpenCode CLI     ║</span>
+<span style="color:#89b4fa">╚══════════════════════════════════════════════╝</span>
+
+<span style="color:#f9e2af">🔍 第一步：检测当前系统环境</span>
+
+ <span style="color:#a6e3a1">✅ 系统: macOS 14.5 (arm64)</span>
+ <span style="color:#a6e3a1">✅ 包管理器: Homebrew 已就绪</span>
+
+<span style="color:#f9e2af">📋 请选择要安装的 AI 工具：</span>
+
+  1) 🤖 Claude Code      — Anthropic 的 CLI 编程助手
+  2) 🚀 Codex CLI         — OpenAI 的命令行助手
+  3) 🔓 OpenCode CLI      — 开源、不挑模型的 CLI 助手
+  4) 🎯 全部安装           — 三件套一键全装
+  0) ❌ 退出
+</pre>
+
+<hr>
+
+<h2>🔧 手动下载（不通过 curl | bash）</h2>
+
+<p>如果你不喜欢 <code>curl | bash</code> 的安全方式，可以手动下载后执行：</p>
+
+<div class="curl-box">
+  <code style="padding-right:0"># 下载脚本<br>
+wget https://4si.cc/tools/ai-tools-installer.sh<br>
+# 查看内容（可选）<br>
+less ai-tools-installer.sh<br>
+# 执行<br>
+bash ai-tools-installer.sh</code>
+</div>
+
+<p>或者直接 <a href="/tools/ai-tools-installer.sh" download>📥 点击下载脚本</a>。</p>
+
+<hr>
+
+<h2>🩺 FAQ</h2>
+
+<h3>Q1: 装完就能直接用吗？</h3>
+<p>工具装好之后，<strong>还需要配置 API Key</strong> 才能调用 AI。详见：<a href="03-claude-config.html">Claude Code 配置与认证</a>、<a href="05-hermes-config.html">Hermes Agent 配置</a>。</p>
+
+<h3>Q2: Windows 用户怎么用？</h3>
+<p>原生 Windows 不支持。请先安装 WSL2（Windows Subsystem for Linux），然后在 WSL 的 Ubuntu 终端中运行脚本。安装 WSL2 只需一条命令：<code>wsl --install</code>（管理员 PowerShell）。</p>
+
+<h3>Q3: 脚本会不会搞坏我的系统？</h3>
+<p>不会。脚本只做三件事：安装 Node.js/Python3（如果缺的话）、<code>npm install -g</code> 装工具、验证安装。先用 <code>--dry-run</code> 跑一遍确认没意外。</p>
+
+<h3>Q4: Ubuntu 20.04 以下能用吗？</h3>
+<p>脚本会给出警告但允许继续。但 Node.js 20 可能需要额外的 PPA，成功率不如 20.04+。强烈建议升级系统或换用更新的版本。</p>
+
+<h3>Q5: 我已经装过其中一个了，再跑会怎样？</h3>
+<p>脚本会检测已安装的工具，<code>✅ 已安装</code> 跳过，只装你没装的。不会重复安装。</p>
+
+<h3>Q6: 我想装在服务器上，支持吗？</h3>
+<p>✅ 完全支持。特别推荐 Ubuntu 20.04+ 的云服务器，装完后配合 Hermes Agent 可实现 24 小时在线 AI 助手。</p>
+
+<h3>Q7: 安装失败怎么办？</h3>
+<p>看终端里的 ❌ 红色提示。最常见原因：网络问题（国内用户需要科学上网访问 npm registry）、权限问题（脚本已用 sudo）。详见 <a href="07-faq.html">常见问题与故障排除</a>。</p>
+
+<h3>Q8: 和 Hermes Agent 安装脚本有什么区别？</h3>
+<p>本脚本装的是 <strong>AI 编程 CLI 工具</strong>（Claude Code/Codex/OpenCode）。Hermes Agent 是另一个独立的 AI 管家系统，需要单独安装，见 <a href="04-hermes-install.html">Hermes Agent 安装入门</a>。</p>
+
+<hr>
+
+<h2>⚠ 常见安装问题与避坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr>
+<tr><td>Windows 上直接跑，一堆报错</td><td>必须先装 WSL2，在 Ubuntu 终端里跑。脚本已经会拒绝 Windows 原生环境</td></tr>
+<tr><td>国内的网络下载 npm 包很慢 / 卡住</td><td>设置 npm 镜像：<code>npm config set registry https://registry.npmmirror.com</code>，再重新运行</td></tr>
+<tr><td>脚本提示 sudo 密码但你不知道</td><td>如果是自己的机器，用你登录的密码。如果是公司的机器，找 IT 要 sudo 权限</td></tr>
+<tr><td>装了 Claude Code 但 claude 命令找不到</td><td>关闭终端重开，或运行 <code>source ~/.bashrc</code>（Linux）/ <code>source ~/.zshrc</code>（macOS）</td></tr>
+<tr><td>curl 报 SSL 证书错误</td><td>确认系统时间正确，<code>timedatectl</code> 检查。老系统可能需 <code>apt-get install ca-certificates</code></td></tr>
+<tr><td>公司网络有防火墙拦截</td><td>检查是否允许访问 npmjs.org 和 registry.npmjs.org，或联系 IT 放行</td></tr>
+</table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #安装脚本 #ClaudeCode #Codex #OpenCode</p>
+
+</div>
+
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

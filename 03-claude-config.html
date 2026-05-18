@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚙ Claude Code 配置与认证 — AI 工具入门系列</title>
+<meta name="description" content="Claude Code 配置与认证完整指南：手把手教你配置 Anthropic API Key、选择 AI 模型、设置用户等级与项目级配置，让 AI 真正理解你的编码风格和项目需求。">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="⚙ Claude Code 配置与认证">
+<meta property="og:description" content="Claude Code 配置与认证完整指南：手把手教你配置 Anthropic API Key、选择 AI 模型、设置用户等级与项目级配置，让 AI 真正理解你的编码风格和项目需求。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/03-claude-config.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/03-claude-config.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">⚙ Claude Code 配置与认证</span>
+</nav>
+<div class="content">
+<h1>⚙ Claude Code 配置与认证</h1>
+
+<blockquote>第 2 篇 — 装好之后怎么配，才能用得爽</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>装好 Claude Code 只是第一步。配好之后，它才知道：</p>
+<ul>
+<li>用哪个 AI 模型</li>
+<li>你是什么水平</li>
+<li>项目有什么特殊要求</li>
+</ul>
+
+<hr>
+
+<h2>🔐 认证方式详解</h2>
+
+<h3>1. Anthropic 官方 API</h3>
+
+<pre><code class="language-bash">
+# 获取 Key：https://console.anthropic.com/settings/keys
+export ANTHROPIC_API_KEY=&quot;sk-ant-api03-xxxxxxxxxxxxx&quot;
+
+# 验证
+claude -p &quot;hello&quot; --max-turns 1
+</code></pre>
+
+<p><strong>优点：</strong> Claude 原生模型，质量最高</p>
+<p><strong>缺点：</strong> 需要境外手机号注册 + 境外支付</p>
+
+<h3>2. DeepSeek API（国内最推荐 ✨）</h3>
+
+<pre><code class="language-bash">
+# 获取 Key：https://platform.deepseek.com/api_keys
+export ANTHROPIC_BASE_URL=&quot;https://api.deepseek.com/anthropic&quot;
+export ANTHROPIC_API_KEY=&quot;sk-xxxxxxxxxxxxx&quot;
+
+# 验证
+claude auth status --text
+</code></pre>
+
+<p><strong>优点：</strong> 国内直接注册、支付宝/微信付款、极便宜</p>
+<p><strong>缺点：</strong> 模型能力略弱于 Claude 原版</p>
+
+<h3>3. OpenRouter（中转站）</h3>
+
+<pre><code class="language-bash">
+export ANTHROPIC_BASE_URL=&quot;https://openrouter.ai/api/v1&quot;
+export ANTHROPIC_API_KEY=&quot;sk-or-v1-xxxxxxxxxxxxx&quot;
+</code></pre>
+
+<p><strong>优点：</strong> 统一付费用多个模型，国内可访问</p>
+<p><strong>缺点：</strong> 多加一层费用</p>
+
+<hr>
+
+<h2>🎛 settings.json 完整配置</h2>
+
+<p><code>~/.claude/settings.json</code>：</p>
+
+<pre><code class="language-json">
+{
+  &quot;model&quot;: &quot;deepseek-v4-pro[1m]&quot;,
+  &quot;effort&quot;: &quot;max&quot;,
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [
+      &quot;Bash(npm run lint:*)&quot;,
+      &quot;Bash(npm test:*)&quot;,
+      &quot;Read&quot;
+    ],
+    &quot;ask&quot;: [
+      &quot;Bash(git push*)&quot;
+    ],
+    &quot;deny&quot;: [
+      &quot;Read(.env)&quot;,
+      &quot;Read(.env.local)&quot;,
+      &quot;Bash(rm -rf *)&quot;
+    ]
+  }
+}
+</code></pre>
+
+<h3>配置项说明</h3>
+
+<div class="table-wrap"><table><tr><th>配置项</th><th>可选值</th><th>说明</th></tr><tr><td><code>model</code></td><td><code>deepseek-v4-pro[1m]</code>, <code>claude-sonnet-4-6</code>, <code>claude-haiku-4-6</code></td><td>默认模型</td></tr><tr><td><code>effort</code></td><td><code>low</code>, <code>medium</code>, <code>high</code>, <code>max</code></td><td>思考深度。越深越聪明但越贵越慢</td></tr><tr><td><code>permissions.allow</code></td><td>工具列表</td><td>自动允许的操作</td></tr><tr><td><code>permissions.ask</code></td><td>工具列表</td><td>每次询问的操作</td></tr><tr><td><code>permissions.deny</code></td><td>工具列表</td><td>禁止的操作</td></tr></table></div>
+
+<h3>💡 模型选择指南</h3>
+
+<div class="table-wrap"><table><tr><th>任务</th><th>推荐模型</th><th>原因</th></tr><tr><td>简单问答、代码解释</td><td><code>claude-haiku-4-6</code> 或 <code>deepseek-v4-flash</code></td><td>便宜快速</td></tr><tr><td>日常编程</td><td><code>deepseek-v4-pro[1m]</code></td><td>性价比最高</td></tr><tr><td>复杂重构、长文件</td><td><code>deepseek-v4-pro[1m]</code></td><td>1M 上下文</td></tr><tr><td>精细代码审查</td><td><code>claude-sonnet-4-6</code></td><td>质量最优</td></tr></table></div>
+
+<blockquote>⚠ <strong>注意：</strong> DeepSeek 的 V4 Flash 不加 <code>[1m]</code> 后缀，V4 Pro 必须加！</blockquote>
+
+<hr>
+
+<h2>📝 CLAUDE.md — 给 Claude 的「使用说明书」</h2>
+
+<p><code>CLAUDE.md</code> 是 Claude Code 的「记忆文件」，告诉它关于你和项目的所有事。</p>
+
+<h3>全局记忆 <code>~/.claude/CLAUDE.md</code></h3>
+
+<pre><code class="language-markdown">
+# 关于我
+
+- 我是一名全栈开发者，主要用 TypeScript 和 Python
+- 偏好简洁代码，不喜欢过度设计
+- 请全部用中文回复
+- 代码注释也用中文
+
+# 我的环境
+
+- macOS + VS Code
+- Node.js 20, Python 3.12
+- 使用 pnpm 管理 Node 依赖
+- 使用 poetry 管理 Python 依赖
+</code></pre>
+
+<h3>项目记忆 <code>项目根目录/CLAUDE.md</code></h3>
+
+<pre><code class="language-markdown">
+# 项目：我的电商后台
+
+## 技术栈
+- 前端：React 18 + TypeScript + Tailwind CSS
+- 后端：FastAPI + SQLAlchemy + PostgreSQL
+- 测试：pytest + Playwright
+
+## 规范
+- 2 空格缩进
+- 函数必须加类型注解
+- API 端点统一用 /api/v1/ 前缀
+- 报错信息用中文
+
+## 命令
+- `pnpm dev` — 启动开发服务器
+- `pnpm test` — 运行测试
+- `pnpm lint` — 代码检查
+</code></pre>
+
+<h3>💡 写好 CLAUDE.md 的技巧</h3>
+
+<ul>
+<li><strong>越具体越好</strong> — &quot;用 2 空格缩进 TS 文件&quot; 比 &quot;写干净代码&quot; 有用 100 倍</li>
+<li><strong>定义命令</strong> — 告诉它怎么跑测试、怎么启动服务</li>
+<li><strong>说明风格</strong> — 要不要分号、用不用 any、偏好什么库</li>
+
+<ul>
+<li><strong>写清边界</strong> — 哪些文件/目录不要动</li>
+   </ul>
+</ul>
+
+<hr>
+
+<h2>🎮 权限模式详解</h2>
+
+<pre><code class="language-bash">
+# 启动时指定权限模式
+claude --permission-mode plan
+</code></pre>
+
+<div class="table-wrap"><table><tr><th>模式</th><th>效果</th><th>适用场景</th></tr><tr><td><code>default</code></td><td>危险操作需确认</td><td>日常使用</td></tr><tr><td><code>acceptEdits</code></td><td>自动接受编辑，其他确认</td><td>信任 Claude 改代码</td></tr><tr><td><code>plan</code></td><td>先列计划再执行</td><td>复杂任务</td></tr><tr><td><code>dontAsk</code></td><td>几乎不询问</td><td>老手专用</td></tr><tr><td><code>bypassPermissions</code></td><td>全部自动允许</td><td>CI/自动化（危险⚠）</td></tr></table></div>
+
+<p>快捷切换：交互模式下按 <code>Shift+Tab</code></p>
+
+<hr>
+
+<h2>⚡ 性能与费用优化</h2>
+
+<h3>省钱技巧</h3>
+
+<pre><code class="language-bash">
+# 1. 简单任务用便宜模型
+claude -p &quot;格式转换&quot; --model deepseek-v4-flash
+
+# 2. 限制思考轮数，防止跑飞
+claude -p &quot;重构代码&quot; --max-turns 10
+
+# 3. 设预算上限
+claude -p &quot;复杂任务&quot; --max-budget-usd 1.0
+
+# 4. 限制可用工具
+claude -p &quot;分析代码&quot; --allowedTools &quot;Read&quot; --max-turns 3
+</code></pre>
+
+<h3>速度优化</h3>
+
+<pre><code class="language-bash">
+# 跳过插件和 MCP 加载（加快启动）
+claude --bare -p &quot;快速任务&quot;
+
+# 简单任务降低思考深度
+claude -p &quot;小改动&quot; --effort low
+</code></pre>
+
+<hr>
+
+<h2>🔒 安全配置</h2>
+
+<pre><code class="language-bash">
+# 禁止读取敏感文件
+# 在 settings.json 的 permissions.deny 里加：
+&quot;deny&quot;: [
+  &quot;Read(.env)&quot;,
+  &quot;Read(.env.local)&quot;,
+  &quot;Read(*secret*)&quot;,
+  &quot;Read(*credential*)&quot;,
+  &quot;Bash(rm -rf *)&quot;,
+  &quot;Bash(git push --force*)&quot;
+]
+</code></pre>
+
+<hr>
+
+<h2>🚦 下一步</h2>
+
+<ul>
+<li>👉 实践：给你的项目写一个 CLAUDE.md</li>
+<li>👉 遇到问题 → <a href="07-faq.html" class="wikilink">2026-05-08 常见问题与故障排除</a></li>
+<li>👉 装 Hermes Agent → <a href="04-hermes-install.html" class="wikilink">2026-05-08 Hermes Agent 安装入门</a></li>
+</ul>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: Anthropic 和 DeepSeek 用哪个？</h3>
+<p><strong>国内用户无脑选 DeepSeek。</strong> 注册不需要境外手机号，支付宝/微信付款，价格便宜 10 倍。等你用熟了、对代码质量有极致要求时，再考虑 Anthropic。</p>
+
+<h3>Q2: API Key 在哪获取？</h3>
+<p>DeepSeek：https://platform.deepseek.com/api_keys。Anthropic：https://console.anthropic.com/settings/keys。OpenRouter：https://openrouter.ai/keys。</p>
+
+<h3>Q3: settings.json 改了不生效？</h3>
+<p>需要<strong>新开一个 Claude Code 会话</strong>（退出重进）。配置在启动时加载，运行中改不会即时生效。</p>
+
+<h3>Q4: CLAUDE.md 写什么最有用？</h3>
+<p>按优先级：① 项目技术栈和命令（怎么跑测试、怎么启动）；② 代码规范（缩进、命名、类型注解）；③ 你的偏好（语言、风格）。<strong>越具体越好。</strong></p>
+
+<h3>Q5: effort 设多少合适？</h3>
+<p>日常用 <code>max</code>（DeepSeek 下几乎不额外收费）。简单问答用 <code>low</code>（更快）。拿不准就 <code>max</code>。</p>
+
+<h3>Q6: 权限模式怎么选才不会删我代码？</h3>
+<p>新手推荐 <code>default</code>（危险操作会弹确认）。在 settings.json 里把 <code>Bash(rm -rf *)</code> 加到 deny 列表，双重保险。</p>
+
+<h3>Q7: 怎么确认配置没问题？</h3>
+<p>跑 <code>claude auth status --text</code> 看认证状态，跑 <code>claude -p &quot;你现在用的是什么模型？&quot; --max-turns 1</code> 看模型是否正确加载。</p>
+
+<h3>Q8: 多个项目怎么管理不同配置？</h3>
+<p>每个项目根目录放一个 <code>.claude/settings.json</code>（项目配置）和 <code>.claude/CLAUDE.md</code>（项目说明）。全局配置放 <code>~/.claude/</code>。Claude Code 会自动合并。</p>
+
+<h3>Q9: OpenRouter 和直接连有什么区别？</h3>
+<p>OpenRouter 是「中转站」：一个 Key 调所有模型，但加一层中转费（约 5%）。直接连延迟更低、更省钱。有 DeepSeek Key 就直接连。</p>
+
+<h3>Q10: API Key 额度用完了会发生什么？</h3>
+<p>Claude Code 会报错停止。去对应平台充值即可。DeepSeek 充值最低 ¥1 起，非常友好。</p>
+
+<hr>
+
+<h2>⚠ 配置过程中的高频翻车点</h2>
+
+<div class="table-wrap"><table><tr><th>翻车现场</th><th>正确姿势</th></tr><tr><td>把 API Key 写到 settings.json 里</td><td>Key 写 <code>.env</code> 或环境变量，settings.json 只放模型名和权限</td></tr><tr><td><code>deepseek-v4-flash</code> 也加了 <code>[1m]</code> 后缀</td><td>Flash 不加后缀！只有 Pro 加 <code>[1m]</code>，加错了会报 Model not found</td></tr><tr><td>CLAUDE.md 写了一堆废话</td><td>&quot;好好写代码&quot;没用。&quot;用 2 空格缩进，不用分号&quot;才有用</td></tr><tr><td>effort 设成 max 后发现太慢</td><td>max 适合复杂任务。日常小改动试试 <code>medium</code>，速度翻倍</td></tr><tr><td>permissions.deny 写了 <code>&quot;Read(.env)&quot;</code> 但还能读</td><td>deny 只对 Claude 自动操作生效，如果你明确让它读它还是会读。再加一条 <code>ask</code></td></tr><tr><td>以为 <code>--dangerously-skip-permissions</code> 是「跳过危险」</td><td>它是「跳过所有确认，包括危险操作」。新手别用</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #ClaudeCode #配置</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

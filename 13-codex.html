@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Codex CLI 安装与入门 — AI 工具入门系列</title>
+<meta name="description" content="🎯 这篇讲什么">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🤖 Codex CLI 安装与入门">
+<meta property="og:description" content="🎯 这篇讲什么">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/13-codex.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/13-codex.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">Codex CLI 安装与入门</span>
+</nav>
+<div class="content">
+<h1>🤖 Codex CLI 安装与入门</h1>
+
+<blockquote>工具扩展篇 — OpenAI 出品的命令行 AI 编程助手</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>Codex CLI 是 OpenAI 推出的终端 AI 编程工具。和 Claude Code 类似，但用的是 OpenAI 的模型（GPT 系列）。这篇文章教你从零装好并用起来。</p>
+
+<hr>
+
+<h2>📊 Codex vs Claude Code 快速对比</h2>
+
+<div class="table-wrap"><table><tr><th></th><th>Codex CLI</th><th>Claude Code</th></tr><tr><td><strong>开发者</strong></td><td>OpenAI</td><td>Anthropic</td></tr><tr><td><strong>安装方式</strong></td><td><code>npm install -g @openai/codex</code></td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr><tr><td><strong>默认模型</strong></td><td>GPT-4o / o4-mini</td><td>Claude Sonnet</td></tr><tr><td><strong>开源</strong></td><td>否</td><td>否</td></tr><tr><td><strong>必须 Git 仓库</strong></td><td>✅ 必须在 Git 仓库内运行</td><td>❌ 无此限制</td></tr><tr><td><strong>运行模式</strong></td><td><code>codex exec</code>（单次）</td><td><code>claude -p</code>（单次）</td></tr><tr><td><strong>全自动模式</strong></td><td><code>--full-auto</code></td><td><code>--dangerously-skip-permissions</code></td></tr><tr><td><strong>极限模式</strong></td><td><code>--yolo</code></td><td>同上</td></tr></table></div>
+
+<hr>
+
+<h2>📋 前置检查</h2>
+
+<pre><code class="language-bash">
+# 1. Node.js ≥ 18
+node --version
+
+# 2. npm
+npm --version
+
+# 3. Git
+git --version
+</code></pre>
+
+<hr>
+
+<h2>🚀 安装</h2>
+
+<pre><code class="language-bash">
+# 全局安装
+npm install -g @openai/codex
+
+# Linux 服务器权限不够加 sudo
+sudo npm install -g @openai/codex
+
+# 验证
+codex --version
+</code></pre>
+
+<hr>
+
+<h2>🔐 认证</h2>
+
+<pre><code class="language-bash">
+# 方式一：环境变量（推荐）
+export OPENAI_API_KEY=&quot;sk-你的OpenAI密钥&quot;
+
+# 写入 shell 配置永久生效
+echo &#x27;export OPENAI_API_KEY=&quot;sk-你的密钥&quot;&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+# 方式二：OAuth 登录
+codex auth login
+</code></pre>
+
+<blockquote>💡 OpenAI API Key 获取：https://platform.openai.com/api-keys</blockquote>
+
+<hr>
+
+<h2>🎮 使用方式</h2>
+
+<h3>模式 1：单次执行（<code>codex exec</code>）— 推荐</h3>
+
+<pre><code class="language-bash">
+# 基本用法：必须在 Git 仓库内执行
+cd ~/my-project
+codex exec &quot;添加一个深色模式切换按钮&quot;
+
+# 带上下文文件
+codex exec &quot;审查这个配置的安全性&quot; -f config.yaml -f .env.example
+</code></pre>
+
+<h3>模式 2：全自动模式（<code>--full-auto</code>）</h3>
+
+<pre><code class="language-bash">
+# 自动批准沙箱内的文件更改
+codex exec --full-auto &quot;重构 auth 模块&quot;
+</code></pre>
+
+<h3>模式 3：极限模式（<code>--yolo</code>）⚠</h3>
+
+<pre><code class="language-bash">
+# 无沙箱、无批准，全部自动执行（危险！）
+codex --yolo exec &quot;修复所有 lint 错误&quot;
+</code></pre>
+
+<hr>
+
+<h2>🔑 关键特性</h2>
+
+<h3>必须在 Git 仓库中运行</h3>
+
+<p>Codex 要求在有 <code>.git</code> 目录的项目里执行。如果只是想测试：</p>
+
+<pre><code class="language-bash">
+# 创建临时 Git 仓库
+cd $(mktemp -d) &amp;&amp; git init
+codex exec &quot;用 Python 写一个贪吃蛇游戏&quot;
+</code></pre>
+
+<h3>沙箱安全</h3>
+
+<div class="table-wrap"><table><tr><th>模式</th><th>文件修改</th><th>Bash 执行</th><th>适合场景</th></tr><tr><td><code>codex exec</code></td><td>需确认</td><td>需确认</td><td>日常开发</td></tr><tr><td><code>--full-auto</code></td><td>自动批准</td><td>自动批准（沙箱内）</td><td>批量重构</td></tr><tr><td><code>--yolo</code></td><td>全部自动</td><td>全部自动</td><td>CI/自动化 ⚠</td></tr></table></div>
+
+<hr>
+
+<h2>📦 实战场景</h2>
+
+<h3>PR 审查</h3>
+
+<pre><code class="language-bash">
+# 克隆到临时目录审查
+REVIEW=$(mktemp -d)
+git clone https://github.com/user/repo.git $REVIEW
+cd $REVIEW
+gh pr checkout 42
+codex exec &quot;Review this PR vs main. 关注安全问题、逻辑错误和测试覆盖。&quot;
+</code></pre>
+
+<h3>批量修 Issue</h3>
+
+<pre><code class="language-bash">
+# 为每个 Issue 创建独立 worktree
+git worktree add -b fix/issue-78 /tmp/issue-78 main
+git worktree add -b fix/issue-99 /tmp/issue-99 main
+
+# 并行修复
+cd /tmp/issue-78 &amp;&amp; codex --yolo exec &quot;修复 Issue #78 并提交&quot; &amp;
+cd /tmp/issue-99 &amp;&amp; codex --yolo exec &quot;修复 Issue #99 并提交&quot; &amp;
+
+# 完成后推送
+cd /tmp/issue-78 &amp;&amp; git push -u origin fix/issue-78
+</code></pre>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: Codex 和 Claude Code 装哪个？</h3>
+<p>有 OpenAI Key 选 Codex，有 Anthropic/DeepSeek Key 选 Claude Code。功能相似，主要看你有哪个模型的 Key。</p>
+
+<h3>Q2: 为什么提示 &quot;not a git repository&quot;？</h3>
+<p>Codex 必须在 Git 仓库内运行。<code>git init</code> 创建一个新仓库即可。</p>
+
+<h3>Q3: <code>--full-auto</code> 和 <code>--yolo</code> 有什么区别？</h3>
+<p><code>--full-auto</code> 有沙箱保护，<code>--yolo</code> 完全没有限制。日常用 <code>--full-auto</code>，CI 用 <code>--yolo</code>。</p>
+
+<h3>Q4: 需要什么 OpenAI 账号等级？</h3>
+<p>API Key 即可，不需要 ChatGPT Plus 订阅。按量付费。</p>
+
+<h3>Q5: 能和 Hermes 联动吗？</h3>
+<p>能。Hermes 可以安装 codex 技能，通过微信/TG 指挥 Codex 写代码。</p>
+
+<hr>
+
+<h2>⚠ 避坑指南</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>不在 Git 仓库里执行</td><td>先用 <code>git init</code> 或 <code>cd</code> 到现有项目</td></tr><tr><td><code>--yolo</code> 乱删文件</td><td>先用 <code>git commit</code> 备份，<code>--yolo</code> 只在 CI 中用</td></tr><tr><td>OpenAI API 余额不足</td><td>去 platform.openai.com 充值，最低 $5</td></tr><tr><td><code>codex</code> 命令找不到</td><td>检查 npm 全局路径是否在 PATH</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #Codex #OpenAI #安装 #编程助手</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

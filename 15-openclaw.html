@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦞 OpenClaw 介绍与迁移指南 — AI 工具入门系列</title>
+<meta name="description" content="🎯 这篇讲什么">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🦞 OpenClaw 介绍与迁移指南">
+<meta property="og:description" content="🎯 这篇讲什么">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/15-openclaw.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/15-openclaw.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">OpenClaw 介绍与迁移指南</span>
+</nav>
+<div class="content">
+<h1>🦞 OpenClaw 介绍与迁移指南</h1>
+
+<blockquote>工具扩展篇 — Hermes 的前身，如何迁移到新版本</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>OpenClaw 是 Hermes Agent 的<strong>前身</strong>，由 Nous Research 开发。Hermes Agent 是它的继任者。如果你之前用的是 OpenClaw，这篇教你<strong>无缝迁移到 Hermes</strong>。</p>
+
+<hr>
+
+<h2>📜 OpenClaw 是什么？</h2>
+
+<p>OpenClaw 和 Hermes Agent 的关系：</p>
+
+<pre><code>
+OpenClaw (旧) ──→ 停止维护 ──→ Hermes Agent (新)
+   2024-2025                        2025-现在
+</code></pre>
+
+<ul>
+<li><strong>同一团队</strong>：都是 Nous Research</li>
+<li><strong>功能继承</strong>：Hermes 保留了 OpenClaw 全部功能并大幅增强</li>
+<li><strong>配置兼容</strong>：Hermes 提供一键迁移工具</li>
+</ul>
+
+<hr>
+
+<h2>🔄 为什么要迁移？</h2>
+
+<div class="table-wrap"><table><tr><th></th><th>OpenClaw</th><th>Hermes Agent</th></tr><tr><td><strong>维护状态</strong></td><td>❌ 停止更新</td><td>✅ 活跃开发</td></tr><tr><td><strong>模型支持</strong></td><td>有限</td><td>20+ 提供商</td></tr><tr><td><strong>消息平台</strong></td><td>Telegram/Discord</td><td>+微信/Slack/Signal 等 15+</td></tr><tr><td><strong>技能系统</strong></td><td>基础</td><td>完整市场 + 社区</td></tr><tr><td><strong>性能</strong></td><td>—</td><td>更快更稳定</td></tr><tr><td><strong>社区</strong></td><td>冷清</td><td>活跃</td></tr></table></div>
+
+<hr>
+
+<h2>🚀 一键迁移</h2>
+
+<p>Hermes 内置了迁移工具，能自动搬家：配置、记忆、技能、API Key。</p>
+
+<pre><code class="language-bash">
+# 1. 确保 Hermes 已安装
+hermes --version
+
+# 2. 运行迁移（自动检测 OpenClaw 目录）
+hermes claw migrate
+
+# 3. 迁移完成后清理旧文件
+hermes claw cleanup
+</code></pre>
+
+<h3>迁移了什么？</h3>
+
+<div class="table-wrap"><table><tr><th>数据</th><th>是否迁移</th></tr><tr><td>配置文件</td><td>✅</td></tr><tr><td>API Key</td><td>✅</td></tr><tr><td>对话记忆 (Memory)</td><td>✅</td></tr><tr><td>技能文件 (Skills)</td><td>✅</td></tr><tr><td>会话记录</td><td>✅</td></tr><tr><td>插件</td><td>⚠ 需手动重装</td></tr></table></div>
+
+<hr>
+
+<h2>📂 OpenClaw 旧文件位置</h2>
+
+<p>如果迁移工具没自动检测到，手动指定路径：</p>
+
+<pre><code class="language-bash">
+# 默认位置
+~/.openclaw/          # 配置和数据
+~/.openclaw/.env      # API Key
+
+# 迁移后这些目录可以删除
+rm -rf ~/.openclaw/
+</code></pre>
+
+<hr>
+
+<h2>🆕 迁移后需要做的事</h2>
+
+<h3>1. 检查配置</h3>
+
+<pre><code class="language-bash">
+hermes doctor
+# 自动检查是否有遗漏的配置
+</code></pre>
+
+<h3>2. 重新配置消息平台</h3>
+
+<pre><code class="language-bash">
+hermes gateway setup
+# OpenClaw 的平台配置会自动迁移，但建议手动检查一遍
+</code></pre>
+
+<h3>3. 安装推荐的技能</h3>
+
+<pre><code class="language-bash">
+hermes skills install web-search
+hermes skills install self-improvement
+hermes skills install obsidian
+</code></pre>
+
+<h3>4. 测试一下</h3>
+
+<pre><code class="language-bash">
+hermes chat -q &quot;你好，能正常用吗？&quot;
+</code></pre>
+
+<hr>
+
+<h2>🤔 如果不想迁移会怎样？</h2>
+
+<p>OpenClaw 虽然停止维护，但<strong>已安装的还能继续用</strong>。不过：</p>
+<ul>
+<li>不会有新功能和安全更新</li>
+<li>新的 AI 模型可能不支持</li>
+<li>遇到问题没有社区帮助</li>
+<li>微信、Signal 等新平台不可用</li>
+</ul>
+
+<hr>
+
+<h2>📊 OpenClaw → Hermes 命令对照</h2>
+
+<div class="table-wrap"><table><tr><th>OpenClaw 命令</th><th>Hermes 等价命令</th></tr><tr><td><code>claw</code></td><td><code>hermes</code></td></tr><tr><td><code>claw config</code></td><td><code>hermes config</code></td></tr><tr><td><code>claw doctor</code></td><td><code>hermes doctor</code></td></tr><tr><td><code>claw gateway run</code></td><td><code>hermes gateway run</code></td></tr><tr><td><code>claw model</code></td><td><code>hermes model</code></td></tr><tr><td><code>claw setup</code></td><td><code>hermes setup</code></td></tr><tr><td><code>claw update</code></td><td><code>hermes update</code></td></tr></table></div>
+
+<p>基本是把 <code>claw</code> 替换为 <code>hermes</code>。</p>
+
+<hr>
+
+<h2>🌍 从其他工具迁移到 Hermes</h2>
+
+<p>除了 OpenClaw，Hermes 还能从其他工具导入数据：</p>
+
+<pre><code class="language-bash">
+# 导入对话历史（JSONL 格式）
+hermes sessions import ~/backups/
+
+# 导入配置
+hermes config migrate
+</code></pre>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: 迁移会丢数据吗？</h3>
+<p>不会。迁移工具只读不删，完成后你手动 <code>hermes claw cleanup</code> 才会清理旧文件。</p>
+
+<h3>Q2: OpenClaw 的 Telegram Bot Token 还能用吗？</h3>
+<p>能。Token 不变，只是从 OpenClaw 换到 Hermes 使用。</p>
+
+<h3>Q3: 迁移后技能还能用吗？</h3>
+<p>大部分能。OpenClaw 的技能格式兼容 Hermes。部分可能需要小改。</p>
+
+<h3>Q4: 迁移失败怎么办？</h3>
+<p>先 <code>hermes doctor</code> 排查。也可以手动复制配置文件到 <code>~/.hermes/</code>。</p>
+
+<h3>Q5: 还能回到 OpenClaw 吗？</h3>
+<p>迁移前备份 <code>~/.openclaw/</code> 目录即可随时恢复。</p>
+
+<h3>Q6: 我之前没听过 OpenClaw，需要关心吗？</h3>
+<p>不需要。直接从 <a href="04-hermes-install.html" class="wikilink">2026-05-08 Hermes Agent 安装入门</a> 开始即可。</p>
+
+<hr>
+
+<h2>⚠ 避坑指南</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>迁移前没备份</td><td>先 <code>cp -r ~/.openclaw ~/openclaw-backup</code></td></tr><tr><td>迁移后两套配置冲突</td><td><code>hermes claw cleanup</code> 清理旧文件</td></tr><tr><td>网关同时启动了两个</td><td>先停 OpenClaw 再启 Hermes</td></tr><tr><td>技能不兼容</td><td>在技能市场找替代品或手动迁移</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #OpenClaw #HermesAgent #迁移</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Claude Code Skills 进阶：自定义 Agent 与 MCP 集成 — AI 工具入门系列</title>
+<meta name="description" content="Claude Code Skills 进阶教程：手把手教你创建自定义 Subagent 子代理、接入 MCP 外部工具，让 Claude Code 从一个 AI 助手升级为分工协作的 AI 开发团队。">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🚀 Claude Code Skills 进阶：自定义 Agent 与 MCP 集成">
+<meta property="og:description" content="Claude Code Skills 进阶教程：手把手教你创建自定义 Subagent 子代理、接入 MCP 外部工具，让 Claude Code 从一个 AI 助手升级为分工协作的 AI 开发团队。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/10-cc-skills-advanced.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/10-cc-skills-advanced.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">Claude Code Skills 进阶：自定义 Agent 与 MCP 集成</span>
+</nav>
+<div class="content">
+<h1>🚀 Claude Code Skills 进阶：自定义 Agent 与 MCP 集成</h1>
+
+<blockquote>进阶第 3 篇 — 让 Claude Code 长出三头六臂</blockquote>
+
+<hr>
+
+<h2>🎯 这篇讲什么</h2>
+
+<p>Claude Code 最强大的隐藏能力：<strong>自定义子代理</strong> 和 <strong>MCP 外部工具集成</strong>。学会这两招，它不再是一个 AI，而是一个 AI 团队。</p>
+
+<hr>
+
+<h2>👥 自定义 Subagent：让 Claude 拥有专业分身</h2>
+
+<h3>概念</h3>
+
+<p>Subagent 是运行在 Claude Code 内部的<strong>专业子 AI</strong>。你可以为不同任务定义不同性格、不同工具的 Agent。</p>
+
+<pre><code>
+你: &quot;帮我重构 auth 模块，顺便做安全审查&quot;
+         │
+         ▼
+   ┌─────────────┐     ┌──────────────────┐
+   │ Claude Code  │────→│ @security-review  │  安全审查
+   │   (主控)     │     └──────────────────┘
+   │             │     ┌──────────────────┐
+   │             │────→│ @db-expert        │  数据库优化
+   └─────────────┘     └──────────────────┘
+</code></pre>
+
+<h3>创建 Agent</h3>
+
+<p>在 <code>.claude/agents/</code> 目录创建 <code>.md</code> 文件：</p>
+
+<pre><code class="language-markdown">
+# .claude/agents/security-reviewer.md
+---
+name: security-reviewer
+description: 专注安全审查的代码审计专家
+model: sonnet
+tools: [Read, Bash]
+---
+你是一个资深安全工程师。审查代码时重点关注：
+- 注入漏洞（SQL、XSS、命令注入）
+- 认证与授权缺陷
+- 硬编码密钥
+- 不安全的反序列化
+- 依赖库已知漏洞
+
+检查完输出一份带风险等级的报告。
+</code></pre>
+
+<h3>使用方式</h3>
+
+<p>在对话中 <code>@名字</code> 调用：</p>
+
+<pre><code>
+用户: @security-reviewer 审查 src/auth/ 目录
+用户: @db-expert 优化这几条查询，然后 @security-reviewer 检查改动
+</code></pre>
+
+<h3>Agent 可以嵌套调用</h3>
+
+<pre><code>
+用户: @architect 设计新的 API 结构
+     → @architect 内部调用 @db-expert 检查数据模型
+     → @architect 内部调用 @security-reviewer 验证设计
+     → 输出完整方案
+</code></pre>
+
+<h3>Agent 文件位置优先级</h3>
+
+<div class="table-wrap"><table><tr><th>位置</th><th>范围</th><th>用途</th></tr><tr><td><code>.claude/agents/</code></td><td>项目</td><td>团队共享</td></tr><tr><td><code>~/.claude/agents/</code></td><td>全局</td><td>个人专用</td></tr></table></div>
+
+<hr>
+
+<h2>🔌 MCP：接入外部工具和数据源</h2>
+
+<p>MCP（Model Context Protocol）让 Claude Code 能连接数据库、API、浏览器等外部服务。</p>
+
+<h3>架构</h3>
+
+<pre><code>
+Claude Code ──→ MCP Server (GitHub) ──→ GitHub API
+            ──→ MCP Server (Postgres) ──→ 数据库
+            ──→ MCP Server (Puppeteer) ──→ 浏览器
+</code></pre>
+
+<h3>安装 MCP 服务</h3>
+
+<pre><code class="language-bash">
+# GitHub 集成（管理 Issue、PR）
+claude mcp add -s user github -- npx @modelcontextprotocol/server-github
+
+# PostgreSQL 查询
+claude mcp add -s local postgres -- npx @anthropic-ai/server-postgres \
+  --connection-string postgresql://localhost/mydb
+
+# 浏览器自动化
+claude mcp add puppeteer -- npx @anthropic-ai/server-puppeteer
+</code></pre>
+
+<h3>MCP 作用域</h3>
+
+<div class="table-wrap"><table><tr><th>参数</th><th>范围</th><th>存储位置</th></tr><tr><td><code>-s user</code></td><td>全局所有项目</td><td><code>~/.claude.json</code></td></tr><tr><td><code>-s local</code></td><td>当前项目（你个人）</td><td><code>.claude/settings.local.json</code></td></tr><tr><td><code>-s project</code></td><td>当前项目（团队）</td><td><code>.claude/settings.json</code></td></tr></table></div>
+
+<h3>在对话中使用</h3>
+
+<p>安装后，Claude Code 自动发现 MCP 工具。直接说话就行：</p>
+
+<pre><code>
+用户: 查一下这个项目的 open issues，按优先级排序
+     → Claude 自动调用 GitHub MCP
+
+用户: 查数据库 users 表里最近注册的 10 个用户
+     → Claude 自动调用 Postgres MCP
+</code></pre>
+
+<h3>资源引用语法</h3>
+
+<pre><code>
+@github:issue://123        # 引 GitHub Issue
+@github:pr://456           # 引 GitHub PR
+</code></pre>
+
+<hr>
+
+<h2>🎛 MCP 高级配置</h2>
+
+<h3>仅限特定会话使用</h3>
+
+<pre><code class="language-bash">
+claude --bare -p &quot;分析数据&quot; \
+  --mcp-config mcp-servers.json \
+  --strict-mcp-config
+</code></pre>
+
+<p><code>--strict-mcp-config</code>：只加载指定配置，忽略其他所有 MCP 服务。</p>
+
+<h3>性能优化</h3>
+
+<pre><code class="language-bash">
+# 限制 MCP 输出大小，防止撑爆上下文
+export MAX_MCP_OUTPUT_TOKENS=50000
+
+# 在 MCP 配置中允许大结果
+# 加 maxResultSizeChars 注解，最大 500K 字符
+</code></pre>
+
+<hr>
+
+<h2>🔗 Agent + MCP 联动</h2>
+
+<p>最强大的用法：Agent 调用 MCP 工具。</p>
+
+<pre><code class="language-markdown">
+# .claude/agents/data-analyst.md
+---
+name: data-analyst
+description: 数据分析专家
+model: sonnet
+tools: [Read, Bash]
+---
+你是数据分析师。需要查数据库时，直接调用 PostgreSQL MCP。
+分析结果输出为带图表的 Markdown 报告。
+</code></pre>
+
+<pre><code>
+用户: @data-analyst 分析上周用户增长趋势
+     → Agent 自动调用 MCP 查数据库
+     → 分析数据
+     → 输出带洞察的报告
+</code></pre>
+
+<hr>
+
+<h2>📋 常用 MCP 服务列表</h2>
+
+<div class="table-wrap"><table><tr><th>服务</th><th>安装命令</th><th>用途</th></tr><tr><td>GitHub</td><td><code>npx @modelcontextprotocol/server-github</code></td><td>Issue/PR/仓库管理</td></tr><tr><td>PostgreSQL</td><td><code>npx @anthropic-ai/server-postgres</code></td><td>数据库查询</td></tr><tr><td>Puppeteer</td><td><code>npx @anthropic-ai/server-puppeteer</code></td><td>浏览器自动化</td></tr><tr><td>Filesystem</td><td><code>npx @modelcontextprotocol/server-filesystem</code></td><td>文件系统访问</td></tr><tr><td>Slack</td><td>社区维护</td><td>Slack 消息管理</td></tr><tr><td>Jira</td><td>社区维护</td><td>项目管理</td></tr></table></div>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: Agent 和直接问 Claude 有什么区别？</h3>
+<p>Agent 有独立的系统 prompt 和工具集。比如 security-reviewer 只看代码安全，不会被其他上下文干扰。结果更专业、更一致。</p>
+
+<h3>Q2: Agent 最多能几层嵌套？</h3>
+<p>取决于配置。默认能嵌套调用，但不建议超过 3 层（Agent A → Agent B → Agent C）。</p>
+
+<h3>Q3: MCP 服务需要额外付费吗？</h3>
+<p>MCP 协议免费。但部分 MCP 服务（如 GitHub API）有自己的用量限制。PostgreSQL MCP 连本地数据库完全免费。</p>
+
+<h3>Q4: 多个 MCP 服务会冲突吗？</h3>
+<p>不会。每个 MCP 服务独立运行，工具名自动加 <code>mcp__&lt;服务名&gt;__</code> 前缀。</p>
+
+<h3>Q5: 怎么关掉不用的 MCP 服务？</h3>
+<p><code>claude mcp remove &lt;name&gt;</code>。或者在 settings 里禁掉。</p>
+
+<h3>Q6: 团队怎么共享 Agent 和 MCP 配置？</h3>
+<p>Agent 放 <code>.claude/agents/</code>（Git 提交）。MCP 用 <code>-s project</code> 安装，配置写入 <code>.claude/settings.json</code>。</p>
+
+<hr>
+
+<h2>⚠ 实操避坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>Agent 的 prompt 写太泛</td><td>Agent 越专一越好。&quot;安全审查员&quot;比&quot;代码助手&quot;有效</td></tr><tr><td>MCP 连接信息写死密码</td><td>用环境变量，别硬编码在命令里</td></tr><tr><td>太多 Agent 导致 token 爆涨</td><td>按需创建，不要一口气定义 10 个</td></tr><tr><td>MCP 服务装了没反应</td><td><code>/mcp</code> 进入管理界面检查连接状态</td></tr><tr><td><code>--bare</code> 模式下忘了传 MCP 配置</td><td>用 <code>--mcp-config</code> 显式指定</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #ClaudeCode #进阶 #Agent #MCP</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

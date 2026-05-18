@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🩺 常见问题与故障排除 — AI 工具入门系列</title>
+<meta name="description" content="🔴 Claude Code 常见问题">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🩺 常见问题与故障排除">
+<meta property="og:description" content="🔴 Claude Code 常见问题">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/07-faq.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/07-faq.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">常见问题与故障排除</span>
+</nav>
+<div class="content">
+<h1>🩺 常见问题与故障排除</h1>
+
+<blockquote>兜底篇 — 装不上、连不上、报错了？来这里找答案</blockquote>
+
+<hr>
+
+<h2>🔴 Claude Code 常见问题</h2>
+
+<h3>Q1: <code>npm install -g</code> 报 EACCES 权限错误</h3>
+
+<pre><code class="language-bash">
+# 错误信息：
+# Error: EACCES: permission denied, mkdir &#x27;/usr/lib/node_modules/@anthropic-ai&#x27;
+
+# 解决：用 sudo
+sudo npm install -g @anthropic-ai/claude-code
+
+# 或改用用户级 npm
+mkdir -p ~/.npm-global
+npm config set prefix &#x27;~/.npm-global&#x27;
+echo &#x27;export PATH=~/.npm-global/bin:$PATH&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+npm install -g @anthropic-ai/claude-code
+</code></pre>
+
+<h3>Q2: <code>claude</code> 命令找不到</h3>
+
+<pre><code class="language-bash">
+# 检查 npm 全局路径
+npm list -g --depth=0 | grep claude
+
+# 如果没装
+npm install -g @anthropic-ai/claude-code
+
+# 如果装了但找不到，检查 PATH
+echo $PATH | grep npm
+which claude
+</code></pre>
+
+<h3>Q3: 认证失败 / 401 错误</h3>
+
+<pre><code class="language-bash">
+# 检查环境变量
+echo $ANTHROPIC_API_KEY
+echo $ANTHROPIC_BASE_URL
+
+# 检查认证状态
+claude auth status --text
+
+# 重置认证
+unset ANTHROPIC_API_KEY
+unset ANTHROPIC_BASE_URL
+# 重新 export（见安装指南）
+</code></pre>
+
+<h3>Q4: DeepSeek 报模型不存在</h3>
+
+<pre><code class="language-bash">
+# 错误：Model not found
+
+# 检查模型名是否正确
+# deepseek-v4-pro 必须加 [1m] 后缀
+# deepseek-v4-flash 不加后缀
+
+# 正确：
+export ANTHROPIC_BASE_URL=&quot;https://api.deepseek.com/anthropic&quot;
+claude -p &quot;test&quot; --model deepseek-v4-pro[1m] --max-turns 1
+</code></pre>
+
+<h3>Q5: Claude Code 一直跑不停</h3>
+
+<pre><code class="language-bash">
+# 设最大轮数限制
+claude -p &quot;任务&quot; --max-turns 10
+
+# 设预算上限
+claude -p &quot;任务&quot; --max-budget-usd 0.5
+
+# 交互模式按 Ctrl+C 停止当前任务
+</code></pre>
+
+<h3>Q6: <code>python</code> 命令找不到</h3>
+
+<p>Claude Code 可能调用 <code>python</code>（而不是 <code>python3</code>）。</p>
+
+<p><strong>Linux (Ubuntu/Debian):</strong></p>
+<pre><code class="language-bash">
+sudo apt install python-is-python3
+</code></pre>
+
+<p><strong>macOS:</strong></p>
+<pre><code class="language-bash">
+# macOS 通常已有 python3，创建别名即可
+# 注意：直接 ln -s 可能被 SIP 拦截，推荐用 alias
+echo &#x27;alias python=python3&#x27; &gt;&gt; ~/.zshrc
+source ~/.zshrc
+</code></pre>
+
+<hr>
+
+<h2>🟡 Hermes Agent 常见问题</h2>
+
+<h3>Q1: 安装脚本下载失败</h3>
+
+<pre><code class="language-bash">
+# 如果 GitHub 连不上，尝试：
+# 1. 用代理
+export https_proxy=http://127.0.0.1:7890
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+
+# 2. 手动克隆
+git clone https://github.com/NousResearch/hermes-agent.git ~/.hermes/hermes-agent
+cd ~/.hermes/hermes-agent
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+</code></pre>
+
+<h3>Q2: <code>hermes</code> 命令找不到</h3>
+
+<pre><code class="language-bash">
+# 安装脚本应该自动加了 PATH
+# 如果没加，手动加
+echo &#x27;export PATH=&quot;$HOME/.hermes/hermes-agent/bin:$PATH&quot;&#x27; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+
+# 或者用完整路径
+~/.hermes/hermes-agent/bin/hermes
+</code></pre>
+
+<h3>Q3: 模型连接失败</h3>
+
+<pre><code class="language-bash">
+# 1. 检查 API Key
+hermes config env-path    # 找到 .env 位置
+cat ~/.hermes/.env | grep KEY
+
+# 2. 检查模型配置
+hermes config | grep -A5 model
+
+# 3. 测试网络
+curl -I https://api.deepseek.com
+
+# 4. 重选模型
+hermes model
+</code></pre>
+
+<h3>Q4: 网关服务启动失败</h3>
+
+<pre><code class="language-bash">
+# 看具体错误
+tail -50 ~/.hermes/logs/gateway.log
+journalctl --user -u hermes-gateway -n 50
+
+# 重置失败状态
+systemctl --user reset-failed hermes-gateway
+
+# 手动前台运行看报错
+hermes gateway run
+</code></pre>
+
+<h3>Q5: SSH 断开后网关就挂了</h3>
+
+<pre><code class="language-bash">
+# 启用 lingering（让用户服务在登出后继续跑）
+sudo loginctl enable-linger $USER
+
+# 重启网关
+hermes gateway restart
+</code></pre>
+
+<h3>Q6: WSL2 网关随窗口关闭</h3>
+
+<pre><code class="language-bash">
+# 编辑 /etc/wsl.conf
+sudo nano /etc/wsl.conf
+
+# 加入：
+[boot]
+systemd=true
+
+# 重启 WSL2
+wsl --shutdown
+wsl
+</code></pre>
+
+<h3>Q7: 技能不生效 / 找不到</h3>
+
+<pre><code class="language-bash">
+# 查看已安装技能
+hermes skills list
+
+# 技能配置变更后需要新会话
+# 在对话中：/reset
+# 在命令行：重新运行 hermes
+
+# 手动加载技能
+hermes -s skill名字
+
+# 或在对话中
+/skill skill名字
+</code></pre>
+
+<h3>Q8: Discord Bot 不说话</h3>
+
+<blockquote>必须开启 <strong>Message Content Intent</strong>！</blockquote>
+
+<p>Discord Developer Portal → Bot → Privileged Gateway Intents → 勾选 Message Content Intent</p>
+
+<h3>Q9: Slack Bot 只有私聊能回复</h3>
+
+<blockquote>需要订阅 <code>message.channels</code> 事件</blockquote>
+
+<p>Slack App 设置 → Event Subscriptions → Subscribe to bot events → 添加 <code>message.channels</code></p>
+
+<hr>
+
+<h2>🟢 通用问题</h2>
+
+<h3>Q1: 怎么知道自己现在用的是什么模型？</h3>
+
+<pre><code class="language-bash">
+# Claude Code
+claude auth status --text
+
+# Hermes
+hermes config | grep default
+# 或在对话中输入 /model
+</code></pre>
+
+<h3>Q2: API Key 会不会泄露给 AI？</h3>
+
+<p>不会。两个工具都把 API Key 存在本地环境变量中，不会发给 AI 模型。</p>
+
+<h3>Q3: 能不能离线使用？</h3>
+
+<p>都不能。必须联网调用 AI API。如果想完全本地运行，需要用 Ollama + 本地模型，那是另一个话题。</p>
+
+<h3>Q4: 手机能用吗？</h3>
+
+<div class="table-wrap"><table><tr><th>工具</th><th>手机使用方式</th></tr><tr><td>Claude Code</td><td>无官方手机端</td></tr><tr><td>Hermes Agent</td><td>✅ 通过微信/TG 在手机上用</td></tr></table></div>
+
+<h3>Q5: 怎么更新？</h3>
+
+<pre><code class="language-bash">
+# Claude Code
+claude update
+
+# Hermes
+hermes update
+</code></pre>
+
+<h3>Q6: 怎么彻底卸载？</h3>
+
+<pre><code class="language-bash">
+# Claude Code
+npm uninstall -g @anthropic-ai/claude-code
+rm -rf ~/.claude
+
+# Hermes
+hermes uninstall
+# 或手动删
+rm -rf ~/.hermes
+</code></pre>
+
+<hr>
+
+<h2>🆘 还是搞不定？</h2>
+
+<p>1. 先看日志：<code>~/.hermes/logs/gateway.log</code></p>
+<p>2. 运行医生：<code>hermes doctor</code> 或 <code>claude doctor</code></p>
+<p>3. 重启大法：<code>hermes gateway restart</code>，对话中 <code>/reset</code></p>
+<p>4. 翻翻之前的对话：AI 可能已经解决过类似问题，直接问它&quot;上次那个问题怎么修的？&quot;</p>
+
+<hr>
+
+<h2>🔥 全流程避坑速查表</h2>
+
+<blockquote>从零到两个都跑起来，下面这些坑按阶段排列，挨个对照能省你半天时间。</blockquote>
+
+<h3>阶段一：装 Claude Code</h3>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>一句话解法</th></tr><tr><td>Node.js 没装或版本太低</td><td><code>node --version</code>，低于 18 先去 nodejs.org 下载</td></tr><tr><td>Linux 上 <code>npm install -g</code> 报 EACCES</td><td>加 <code>sudo</code>，这是正常的</td></tr><tr><td>装了 <code>claude</code> 命令说 not found</td><td><code>npm prefix -g</code> 看路径，加到 PATH</td></tr><tr><td>以为装完就能用</td><td><strong>必须配 API Key！</strong> 否则 Claude Code 只是个空壳</td></tr></table></div>
+
+<h3>阶段二：配 Claude Code</h3>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>一句话解法</th></tr><tr><td>Anthropic 注册要境外手机号</td><td>直接用 DeepSeek，支付宝就能注册</td></tr><tr><td><code>deepseek-v4-flash</code> 报 Model not found</td><td>Flash 不加 <code>[1m]</code> 后缀，只有 Pro 加</td></tr><tr><td>环境变量关了终端就没了</td><td>写到 <code>~/.bashrc</code> 或 <code>~/.zshrc</code></td></tr><tr><td>settings.json 改了不生效</td><td>退出 Claude Code 重进，配置是启动时加载的</td></tr></table></div>
+
+<h3>阶段三：装 Hermes Agent</h3>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>一句话解法</th></tr><tr><td>Python 版本不够 3.10</td><td>Ubuntu 22.04+ 自带，旧系统手动装</td></tr><tr><td colspan='2'><code>curl | bash</code> 下不下来</td><td>GitHub 被墙，换网络或手动 git clone</td></tr><tr><td>pip 装依赖报 PEP 668</td><td>加 <code>--break-system-packages</code> 或用 venv</td></tr><tr><td><code>hermes</code> 命令找不到</td><td>手动加 PATH：<code>~/.hermes/hermes-agent/bin/</code></td></tr></table></div>
+
+<h3>阶段四：配 Hermes 网关</h3>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>一句话解法</th></tr><tr><td>Discord Bot 不理人</td><td><strong>开 Message Content Intent！</strong> 这里卡了最多人</td></tr><tr><td>Slack Bot 频道里不说话</td><td>订阅 <code>message.channels</code> 事件</td></tr><tr><td>网关跑着跑着就挂了</td><td><code>sudo loginctl enable-linger $USER</code></td></tr><tr><td><code>gateway install</code> 后以为就启动了</td><td>还要 <code>hermes gateway start</code></td></tr><tr><td>SSH 断开网关就死</td><td>同上 lingering 问题</td></tr></table></div>
+
+<h3>阶段五：日常使用</h3>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>一句话解法</th></tr><tr><td>AI 改代码把东西改坏了</td><td>用前先 <code>git commit</code> 备份！这是铁律</td></tr><tr><td>API 额度不知不觉用完了</td><td><code>hermes insights</code> 或 Claude Code 的 <code>/cost</code> 看用量</td></tr><tr><td>两个工具的命令搞混</td><td>Claude Code = <code>claude</code>，Hermes = <code>hermes</code></td></tr><tr><td>安全模式 off 后 AI 乱删文件</td><td>用 <code>approvals.mode smart</code>，危险操作仍有确认</td></tr><tr><td>Claude Code 跑飞了不停</td><td>加 <code>--max-turns 10</code> 或 <code>--max-budget-usd 0.5</code></td></tr></table></div>
+
+<hr>
+
+<h2>🔗 各笔记专属 FAQ 速查</h2>
+
+<p>每篇笔记末尾都有专属 FAQ 和避坑指南：</p>
+
+<div class="table-wrap"><table><tr><th>笔记</th><th>FAQ 数量</th><th>关键词</th></tr><tr><td><a href="01-overview.html" class="wikilink">2026-05-08 系列总览 什么是AI编程助手</a></td><td>6</td><td>入门疑问、费用、能不能离线</td></tr><tr><td><a href="02-claude-install.html" class="wikilink">2026-05-08 Claude Code 安装入门</a></td><td>8</td><td>权限错误、Node.js、Windows、云服务器</td></tr><tr><td><a href="03-claude-config.html" class="wikilink">2026-05-08 Claude Code 配置与认证</a></td><td>10</td><td>API Key、模型选择、CLAUDE.md、effort</td></tr><tr><td><a href="04-hermes-install.html" class="wikilink">2026-05-08 Hermes Agent 安装入门</a></td><td>10</td><td>Python、下载失败、共存、更新</td></tr><tr><td><a href="05-hermes-config.html" class="wikilink">2026-05-08 Hermes Agent 配置与平台接入</a></td><td>10</td><td>微信/TG/Discord、网关、定时任务、备份</td></tr><tr><td><a href="06-compare.html" class="wikilink">2026-05-08 Claude Code vs Hermes Agent 对比选型</a></td><td>7</td><td>双持、团队、Key 共用</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #故障排除 #FAQ</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>

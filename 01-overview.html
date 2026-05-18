@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 系列总览：什么是 AI 编程助手？ — AI 工具入门系列</title>
+<meta name="description" content="🧠 一句话解释">
+<meta name="keywords" content="AI教程,Claude Code,Hermes Agent,Codex,OpenCode,AI编程,AI安装,SkillHub">
+<meta property="og:title" content="🤖 系列总览：什么是 AI 编程助手？">
+<meta property="og:description" content="🧠 一句话解释">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://4si.cc/01-overview.html">
+<meta property="og:site_name" content="AI 工具入门系列">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://4si.cc/01-overview.html">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-title">📑 目录</div>
+  <nav class="toc-nav" id="toc-nav"></nav>
+</aside>
+<nav class="top-nav">
+  <a href="index.html" class="home-link">← 首页</a>
+  <span class="nav-title">系列总览：什么是 AI 编程助手？</span>
+</nav>
+<div class="content">
+<h1>🤖 系列总览：什么是 AI 编程助手？</h1>
+
+<blockquote>第 0 篇 — 先搞清楚这俩东西到底是啥，再决定装不装</blockquote>
+
+<hr>
+
+<h2>🧠 一句话解释</h2>
+
+<p><strong>AI 编程助手</strong> = 一个可以操作你电脑的 AI。</p>
+
+<p>不像 ChatGPT 只能聊天，它能：</p>
+<ul>
+<li>📂 <strong>读写文件</strong> — 直接帮你改代码</li>
+<li>💻 <strong>执行命令</strong> — 帮你装软件、跑测试、部署项目</li>
+<li>🌐 <strong>上网搜索</strong> — 自动查资料解决问题</li>
+<li>🔁 <strong>多轮迭代</strong> — 写完代码自己测试，出错自己修</li>
+</ul>
+
+<hr>
+
+<h2>🔍 Claude Code 和 Hermes Agent 是什么关系？</h2>
+
+<div class="table-wrap"><table><tr><th>维度</th><th>Claude Code</th><th>Hermes Agent</th></tr><tr><td><strong>谁做的</strong></td><td>Anthropic（Claude 的公司）</td><td>Nous Research（开源社区）</td></tr><tr><td><strong>定位</strong></td><td>专用编程助手</td><td>通用 AI 代理框架</td></tr><tr><td><strong>模型</strong></td><td>Claude 系列 / DeepSeek</td><td>任何模型（20+ 提供商）</td></tr><tr><td><strong>平台</strong></td><td>终端 + IDE</td><td>终端 + 微信/Telegram/Discord/...</td></tr><tr><td><strong>开源</strong></td><td>否（但免费使用）</td><td>是（MIT 协议）</td></tr><tr><td><strong>风格</strong></td><td>专注写代码</td><td>全能助手 + 多平台</td></tr></table></div>
+
+<p><strong>简单比喻：</strong></p>
+<ul>
+<li>Claude Code = 雇了一个<strong>专门写代码的程序员</strong></li>
+<li>Hermes Agent = 雇了一个<strong>什么都能干的万能管家</strong></li>
+</ul>
+
+<hr>
+
+<h2>🎬 它们能做什么？（真实场景）</h2>
+
+<h3>Claude Code 擅长：</h3>
+<pre><code class="language-bash">
+# &quot;帮我把这个 2000 行的 Python 文件重构一下&quot;
+claude -p &quot;Refactor auth.py to use async/await&quot; --allowedTools &quot;Read,Edit,Bash&quot;
+
+# &quot;审查这个 PR 有没有安全漏洞&quot;
+git diff main...feature | claude -p &quot;Security review this diff&quot;
+
+# &quot;帮我给整个项目加类型注解&quot;
+claude -p &quot;Add type hints to all public functions in src/&quot;
+</code></pre>
+
+<h3>Hermes Agent 擅长：</h3>
+
+<ul>
+<li>在微信/Telegram 上和 AI 聊天</li>
+<li>定时检查服务器状态、自动发报告</li>
+<li>接入智能家居控制灯光</li>
+<li>管理 Obsidian 笔记库</li>
+<li>多个平台统一管理（一条消息控制所有 AI）</li>
+</ul>
+
+<hr>
+
+<h2>💰 费用是多少？</h2>
+
+<div class="table-wrap"><table><tr><th>项目</th><th>费用</th></tr><tr><td>Claude Code 软件</td><td><strong>免费</strong></td></tr><tr><td>Hermes Agent 软件</td><td><strong>免费开源</strong></td></tr><tr><td>API 调用费</td><td>按量付费，<strong>几毛到几块钱/天</strong></td></tr><tr><td>DeepSeek API</td><td>极便宜（推荐新手）</td></tr><tr><td>Claude API</td><td>稍贵，质量更高</td></tr></table></div>
+
+<blockquote>💡 <strong>新手省钱方案：</strong> Claude Code + DeepSeek API，一天几毛钱。</blockquote>
+
+<hr>
+
+<h2>🖥 能装在哪？</h2>
+
+<div class="table-wrap"><table><tr><th>系统</th><th>Claude Code</th><th>Hermes Agent</th></tr><tr><td>macOS</td><td>✅</td><td>✅</td></tr><tr><td>Linux (Ubuntu/Debian)</td><td>✅</td><td>✅</td></tr><tr><td>Windows (WSL2)</td><td>✅</td><td>✅</td></tr><tr><td>纯 Windows</td><td>⚠ 有限支持</td><td>⚠ 需 WSL2</td></tr></table></div>
+
+<hr>
+
+<h2>📦 需要提前装的东西</h2>
+
+<ul>
+<li><strong>终端（Terminal）</strong> — 系统自带，大概率已经有了</li>
+<li><strong>Git</strong> — 系统自带，大概率已经有了</li>
+<li><strong>Node.js</strong> — Claude Code 需要，装法见 <a href="02-claude-install.html" class="wikilink">2026-05-08 Claude Code 安装入门</a></li>
+
+<ul>
+<li><strong>Python 3.10+</strong> — Hermes Agent 需要，装法见 <a href="04-hermes-install.html" class="wikilink">2026-05-08 Hermes Agent 安装入门</a></li>
+   </ul>
+</ul>
+
+<p>具体安装步骤见后续笔记。</p>
+
+<hr>
+
+<h2>🚦 下一步</h2>
+
+<p>选一条路，开始动手：</p>
+
+<ul>
+
+<ul>
+<li>👉 装 Claude Code → <a href="02-claude-install.html" class="wikilink">2026-05-08 Claude Code 安装入门</a></li>
+   </ul>
+<li>👉 装 Hermes Agent → <a href="04-hermes-install.html" class="wikilink">2026-05-08 Hermes Agent 安装入门</a></li>
+
+<ul>
+<li>👉 先对比再决定 → <a href="06-compare.html" class="wikilink">2026-05-08 Claude Code vs Hermes Agent 对比选型</a></li>
+   </ul>
+</ul>
+
+<hr>
+
+<h2>❓ 常见问题 (FAQ)</h2>
+
+<h3>Q1: 我完全没写过代码，能看懂吗？</h3>
+<p>能。这个系列从「什么是终端」开始讲，不需要编程基础。但你要愿意打开终端敲命令。</p>
+
+<h3>Q2: 这两个和 ChatGPT 网页版有什么区别？</h3>
+<p>ChatGPT 只能聊天。Claude Code 能<strong>操作你的电脑</strong>——读写文件、执行命令、改代码。Hermes Agent 还能接入微信/Telegram，像私人管家一样随时待命。</p>
+
+<h3>Q3: 我的电脑配置够不够？</h3>
+<p>够。这俩本身不吃配置——它们只是「客户端」，真正的 AI 跑在云端。4GB 内存的笔记本就能用。</p>
+
+<h3>Q4: 装一个要多久？</h3>
+<p>Claude Code：<strong>5 分钟</strong>（前提是 Node.js 已装）。Hermes Agent：<strong>10-15 分钟</strong>（要装 Python 依赖）。</p>
+
+<h3>Q5: 能不能两个都装？</h3>
+<p>✅ 能，而且推荐！装了不冲突，还能联动（Hermes 指挥 Claude Code 写代码）。</p>
+
+<h3>Q6: 后续不想要了能删干净吗？</h3>
+<p>能。Claude Code：<code>npm uninstall -g @anthropic-ai/claude-code &amp;&amp; rm -rf ~/.claude</code>。Hermes：<code>hermes uninstall</code>。</p>
+
+<hr>
+
+<h2>⚠ 新手最容易掉的坑</h2>
+
+<div class="table-wrap"><table><tr><th>坑</th><th>正确做法</th></tr><tr><td>以为能完全离线用</td><td><strong>不能。</strong> 每次对话都要联网调 API。想离线需要本地模型（Ollama），那是另一回事。</td></tr><tr><td>不看前置依赖就装</td><td>先 <code>node --version</code> / <code>python3 --version</code> 确认版本够不够</td></tr><tr><td>装了不知道下一步干嘛</td><td>装完先跑一次简单对话，别一上来就搞大项目</td></tr><tr><td>API Key 直接发群里</td><td>Key = 银行卡密码，泄露了别人能盗刷你的额度</td></tr><tr><td>两个工具搞混命令</td><td>Claude Code 用 <code>claude</code>，Hermes 用 <code>hermes</code>，互不影响</td></tr><tr><td>以为免费无限用</td><td>软件免费，但 AI 调用按量收费。DeepSeek 一天就几毛钱，Anthropic 贵很多。</td></tr></table></div>
+
+<hr>
+
+<p>标签：#AI #教程 #入门 #ClaudeCode #HermesAgent</p>
+
+</div>
+<nav class="mobile-nav">
+  <a href="index.html"><span class="nav-icon">🏠</span>首页</a>
+  <a href="02-claude-install.html"><span class="nav-icon">🔧</span>CC安装</a>
+  <a href="18-installer.html"><span class="nav-icon">🚀</span>一键装</a>
+  <a href="04-hermes-install.html"><span class="nav-icon">🛡</span>Hermes</a>
+  <a href="07-faq.html"><span class="nav-icon">🩺</span>FAQ</a>
+</nav>
+<footer>
+  <p><a href="index.html">← 返回首页</a> · AI 工具入门系列教程</p>
+</footer>
+<script src="app.js?v=4"></script>
+</body>
+</html>
